@@ -1,0 +1,9 @@
+<nav>
+    <a routerLink="/">Home</a>
+    <a routerLink="/products">Products</a>
+    <a *ngIf="!authService.loggedIn" routerLink="/login">Login</a>
+    <a *ngIf="!authService.loggedIn" routerLink="/register">Register</a>
+    <a *ngIf="authService.loggedIn" routerLink="/profile">Profile</a>
+    <a *ngIf="authService.loggedIn" (click)="logout()">Logout</a>
+</nav>
+  
