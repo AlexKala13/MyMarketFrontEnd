@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Product, ApiResponse } from '../models/product.model';
 
 @Component({
   selector: 'app-products',
@@ -7,8 +8,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
-  products: any[] = [];
-  categories: string[] = ['Electronics', 'Books', 'Clothing'];
+  products: Product[] = [];
+  categories: number[] = [1, 2, 3];
   filter: any = { name: '', category: '', date: '', minPrice: null, maxPrice: null };
   loading: boolean = false;
 
@@ -26,27 +27,32 @@ export class ProductsComponent implements OnInit {
       params = params.set('name', this.filter.name);
     }
     if (this.filter.category) {
-      params = params.set('category', this.filter.category);
+      params = params.set('categoryId', this.filter.category);
     }
     if (this.filter.date) {
-      params = params.set('date', this.filter.date);
+      params = params.set('postDate', this.filter.date);
     }
     if (this.filter.minPrice !== null) {
-      params = params.set('minPrice', this.filter.minPrice);
+      params = params.set('priceMin', this.filter.minPrice);
     }
     if (this.filter.maxPrice !== null) {
-      params = params.set('maxPrice', this.filter.maxPrice);
+      params = params.set('priceMax', this.filter.maxPrice);
     }
 
-    this.http.get<any>('http://your-backend-api-url/products', { params })
-      .subscribe(response => {
-        this.products = response.data;
-        this.loading = false;
-      }, error => {
-        console.error('Error loading products', error);
-        this.loading = false;
-      });
-  }
+    this.http.get<any>('https://localhost:7039/api/Advertisement/GetAll', { params })
+    .subscribe(response => {
+      if (response && response.data && Array.isArray(response.data.$values)) {
+        this.products = response.data.$values;
+      } else {
+        this.products = [];
+      }
+      this.loading = false;
+    }, error => {
+      console.error('Error loading products', error);
+      this.products = [];
+      this.loading = false;
+    });
+}
 
   applyFilters() {
     this.loadProducts();

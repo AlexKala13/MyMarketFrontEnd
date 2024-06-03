@@ -8,13 +8,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  username: string = '';
+  email: string = '';
   password: string = '';
 
   constructor(private authService: AuthService, private router: Router) { }
 
   onSubmit() {
-    this.authService.login(this.username, this.password).subscribe(success => {
+    this.authService.login(this.email, this.password).subscribe(success => {
       if (success) {
         this.router.navigate(['/']);
       } else {

@@ -7,17 +7,11 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  userName: string = '';
-  userEmail: string = '';
+  user: any = {};
 
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
-    const token = this.authService.getToken();
-    if (token) {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      this.userName = payload.userName;
-      this.userEmail = payload.email;
-    }
+    this.user = this.authService.getUserInfo();
   }
 }
