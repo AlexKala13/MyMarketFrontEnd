@@ -14,6 +14,7 @@ import { AuthService } from './auth.service';
 import { AuthInterceptor } from './auth.interceptor';
 import { ProfileComponent } from './profile/profile.component';
 import { AddProductComponent } from './add-product/add-product.component';
+import { ProductDetailsComponent } from './product-details/product-details.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt_token');
@@ -28,7 +29,8 @@ export function tokenGetter() {
     ProductsComponent,
     NavbarComponent,
     ProfileComponent,
-    AddProductComponent
+    AddProductComponent,
+    ProductDetailsComponent
   ],
   imports: [
     BrowserModule,

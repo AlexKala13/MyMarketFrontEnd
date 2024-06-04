@@ -1,0 +1,20 @@
+<div *ngIf="loading">Loading...</div>
+<div *ngIf="!loading && product">
+  <h1>{{ product.name }}</h1>
+  <p>{{ product.description }}</p>
+  <p>Category: {{ product.categoryName }}</p>
+  <p>Price: {{ product.price | currency }}</p>
+  <p>Posted on: {{ product.postDate | date }}</p>
+  <p>Due date: {{ product.dueDate | date }}</p>
+  <p>Status: {{ product.status }}</p>
+  <p>User: {{ product.userName }}</p>
+  <div *ngIf="product.photos && product.photos.length">
+    <div *ngFor="let photo of product.photos">
+      <img *ngIf="photo.image" [src]="'data:image/jpeg;base64,' + photo.image" alt="{{ product.name }}" />
+    </div>
+  </div>
+  <p *ngIf="!product.photos.length" > No photos</p>
+</div>
+<div *ngIf="!loading && !product">
+  <p>Product not found</p>
+</div>

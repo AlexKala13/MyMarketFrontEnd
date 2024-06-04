@@ -6,6 +6,7 @@ import { RegisterComponent } from './register/register.component';
 import { ProductsComponent } from './products/products.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AddProductComponent } from './add-product/add-product.component';
+import { ProductDetailsComponent } from './product-details/product-details.component';
 import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'products', component: ProductsComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'add-product', component: AddProductComponent, canActivate: [AuthGuard] },
+  { path: 'product/:id', component: ProductDetailsComponent }
 ];
 
 @NgModule({

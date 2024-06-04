@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { Product, ApiResponse } from '../models/product.model';
 
 @Component({
@@ -13,7 +14,7 @@ export class ProductsComponent implements OnInit {
   filter: any = { name: '', category: '', date: '', minPrice: null, maxPrice: null };
   loading: boolean = false;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit(): void {
     this.loadProducts();
@@ -52,9 +53,13 @@ export class ProductsComponent implements OnInit {
       this.products = [];
       this.loading = false;
     });
-}
+  }
 
   applyFilters() {
     this.loadProducts();
+  }
+
+  viewProductDetails(id: number) {
+    this.router.navigate(['/product', id]);
   }
 }

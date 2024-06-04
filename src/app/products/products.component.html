@@ -14,7 +14,7 @@
   <div *ngIf="loading">Loading...</div>
   <div *ngIf="!loading && products.length === 0">No products found</div>
   <ul *ngIf="!loading && products.length > 0">
-    <li *ngFor="let product of products">
+    <li *ngFor="let product of products" (click)="viewProductDetails(product.id)">
       <img *ngIf="product.photo && product.photo.image" [src]="'data:image/jpeg;base64,' + product.photo.image" alt="{{ product.name }}" />
       <h3>{{ product.name }}</h3>
       <p>Category: {{ product.categoryName }}</p>
