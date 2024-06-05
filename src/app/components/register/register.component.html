@@ -1,8 +1,28 @@
 <h2>Register</h2>
 <form (submit)="onSubmit()">
   <div>
+    <label for="email">Email:</label>
+    <input type="email" id="email" [(ngModel)]="email" name="email" required>
+  </div>
+  <div>
     <label for="username">Username:</label>
-    <input type="text" id="username" [(ngModel)]="username" name="username" required>
+    <input type="text" id="username" [(ngModel)]="userName" name="username" required>
+  </div>
+  <div>
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" [(ngModel)]="firstName" name="firstName" required>
+  </div>
+  <div>
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" [(ngModel)]="lastName" name="lastName" required>
+  </div>
+  <div>
+    <label for="address">Address:</label>
+    <input type="text" id="address" [(ngModel)]="address" name="address" required>
+  </div>
+  <div>
+    <label for="telephone">Telephone:</label>
+    <input type="tel" id="telephone" [(ngModel)]="telephone" name="telephone" required>
   </div>
   <div>
     <label for="password">Password:</label>

@@ -16,23 +16,25 @@ export class AuthService {
   login(email: string, password: string): Observable<boolean> {
     return this.http.post<any>(`${this.apiUrl}/Auth/Login`, { email, password })
       .pipe(map(response => {
-        if (response && response.token) {
-          const token = response.token;
+        console.log(response);
+        if (response && response.data) {
+          const token = response.data;
           localStorage.setItem('jwt_token', token);
 
           const payload = JSON.parse(atob(token.split('.')[1]));
-          localStorage.setItem('user_id', payload.userId);
-          localStorage.setItem('username', payload.username);
+          localStorage.setItem('user_id', payload.nameid);
+          localStorage.setItem('username', payload.unique_name);
           localStorage.setItem('email', payload.email);
 
+          console.log("success login");
           return true;
         }
         return false;
       }));
   }
 
-  register(username: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/Auth/Register`, { username, password });
+  register(email: string, username: string, password: string, firstName: string, lastName: string, address: string, telephone: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/Auth/Register`, { email, username, password, firstName, lastName, address, telephone });
   }
 
   logout() {

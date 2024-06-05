@@ -8,13 +8,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  username: string = '';
+  email: string = '';
+  userName: string = '';
+  firstName: string = '';
+  lastName: string = '';
+  address: string = '';
+  telephone: string = '';
   password: string = '';
-
+  
   constructor(private authService: AuthService, private router: Router) { }
 
   onSubmit() {
-    this.authService.register(this.username, this.password).subscribe(() => {
+    this.authService.register(this.email, this.userName, this.firstName, this.lastName, this.address, this.telephone, this.password).subscribe(() => {
       this.router.navigate(['/login']);
     }, error => {
       alert('Registration failed');
