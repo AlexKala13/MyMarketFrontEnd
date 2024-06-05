@@ -5,16 +5,16 @@ import { FormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { ProductsComponent } from './products/products.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { AuthService } from './auth.service';
+import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { ProductsComponent } from './components/products/products.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { AuthService } from './services/authService/auth.service';
 import { AuthInterceptor } from './auth.interceptor';
-import { ProfileComponent } from './profile/profile.component';
-import { AddProductComponent } from './add-product/add-product.component';
-import { ProductDetailsComponent } from './product-details/product-details.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { AddProductComponent } from './components/add-product/add-product.component';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt_token');

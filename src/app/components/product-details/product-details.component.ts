@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { ProductDetails } from '../models/product-details.model';
+import { ProductDetails } from '../../models/product-details.model';
 
 @Component({
   selector: 'app-product-details',
