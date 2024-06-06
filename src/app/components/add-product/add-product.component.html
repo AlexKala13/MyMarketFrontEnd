@@ -1,35 +1,34 @@
 <div>
-    <h1>Add Product</h1>
-    <form (ngSubmit)="addProduct()">
-      <div>
-        <label for="name">Name:</label>
-        <input id="name" type="text" [(ngModel)]="product.name" name="name" required />
-      </div>
-      <div>
-        <label for="description">Description:</label>
-        <input id="description" type="text" [(ngModel)]="product.description" name="description" required />
-      </div>
-      <div>
-        <label for="categoryId">Category:</label>
-        <input id="categoryId" type="number" [(ngModel)]="product.categoryId" name="categoryId" required />
-      </div>
-      <div>
-        <label for="price">Price:</label>
-        <input id="price" type="number" [(ngModel)]="product.price" name="price" required />
-      </div>
-      <div>
-        <label for="dueDate">Due Date:</label>
-        <input id="dueDate" type="date" [(ngModel)]="product.dueDate" name="dueDate" required />
-      </div>
-      <div>
-        <label for="status">Status:</label>
-        <input id="status" type="number" [(ngModel)]="product.status" name="status" required />
-      </div>
-      <div>
-        <label for="photos">Photos:</label>
-        <input id="photos" type="file" (change)="onFileChange($event)" multiple />
-      </div>
-      <button type="submit">Add Product</button>
-    </form>
+  <h1>Add Product</h1>
+  <form (ngSubmit)="addProduct()">
+    <div>
+      <label for="name">Name:</label>
+      <input id="name" type="text" [(ngModel)]="product.name" name="name" required />
+    </div>
+    <div>
+      <label for="description">Description:</label>
+      <input id="description" type="text" [(ngModel)]="product.description" name="description" required />
+    </div>
+    <div>
+      <label for="categoryId">Category:</label>
+      <input id="categoryId" type="number" [(ngModel)]="product.categoryId" name="categoryId" required />
+    </div>
+    <div>
+      <label for="price">Price:</label>
+      <input id="price" type="number" [(ngModel)]="product.price" name="price" required />
+    </div>
+    <div>
+      <label for="dueDate">Due Date:</label>
+      <input id="dueDate" type="date" [(ngModel)]="product.dueDate" name="dueDate" required />
+    </div>
+    <div>
+      <label for="status">Status:</label>
+      <input id="status" type="number" [(ngModel)]="product.status" name="status" required />
+    </div>
+    <div>
+      <label for="photos">Photos:</label>
+      <input id="photos" type="file" (change)="onFileChange($event)" multiple />
+    </div>
+    <button type="submit">Add Product</button>
+  </form>
 </div>
-  

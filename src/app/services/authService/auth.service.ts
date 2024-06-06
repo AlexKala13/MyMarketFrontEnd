@@ -63,16 +63,24 @@ export class AuthService {
   }
 
   getUserInfo() {
-    return {
-      userId: localStorage.getItem('user_id'),
-      username: localStorage.getItem('username'),
-      email: localStorage.getItem('email')
-    };
+    const userId = localStorage.getItem('user_id');
+    const username = localStorage.getItem('username');
+    const email = localStorage.getItem('email');
+  
+    if (userId && username && email) {
+      return {
+        userId: parseInt(userId, 10),
+        username: username,
+        email: email
+      };
+    } else {
+      return null;
+    }
   }
+  
 
   addProduct(product: any): Observable<any> {
-    const token = this.getToken();
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.post<any>(`${this.apiUrl}/products`, product, { headers });
-  }
+    const userId = product.userId;
+    return this.http.post<any>(`https://localhost:7039/api/Advertisement/Upload?userId=${userId}`, product);
+  }  
 }

@@ -9,15 +9,14 @@ import { Router } from '@angular/router';
 })
 export class AddProductComponent {
   product: any = {
+    userId: 0,
     name: '',
     description: '',
     categoryId: 0,
     price: 0,
     dueDate: '',
     status: 0,
-    photos: [],
-    userId: null,
-    userName: ''
+    photos: []
   };
   selectedFiles: FileList | undefined;
 
@@ -25,7 +24,6 @@ export class AddProductComponent {
     const userInfo = this.authService.getUserInfo();
     if (userInfo) {
       this.product.userId = userInfo.userId;
-      this.product.userName = userInfo.username;
     }
   }
 
@@ -38,31 +36,37 @@ export class AddProductComponent {
     if (this.selectedFiles) {
       for (let i = 0; i < this.selectedFiles.length; i++) {
         const file = this.selectedFiles[i];
-        const arrayBuffer = await this.readFileAsArrayBuffer(file);
-        this.product.photos.push(arrayBuffer);
+        const base64 = await this.readFileAsDataURL(file);
+        this.product.photos.push(base64);
       }
     }
   }
 
-  readFileAsArrayBuffer(file: File): Promise<ArrayBuffer> {
+  readFileAsDataURL(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as ArrayBuffer);
+      reader.onload = () => resolve(reader.result as string);
       reader.onerror = reject;
-      reader.readAsArrayBuffer(file);
+      reader.readAsDataURL(file);
     });
   }
 
   async addProduct() {
     await this.uploadFiles();
-    this.authService.addProduct(this.product).subscribe(response => {
-      if (response.success) {
-        this.router.navigate(['/products']);
-      } else {
-        console.error(response.message);
+    this.authService.addProduct(this.product).subscribe(
+      response => {
+        if (response.success) {
+          this.router.navigate(['/products']);
+        } else {
+          console.error(response.message);
+        }
+      },
+      error => {
+        console.error('Error adding product', error);
+        if (error.error && error.error.errors) {
+          console.error('Validation errors:', error.error.errors);
+        }
       }
-    }, error => {
-      console.error('Error adding product', error);
-    });
+    );
   }
 }
