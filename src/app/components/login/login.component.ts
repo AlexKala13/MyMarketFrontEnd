@@ -13,13 +13,17 @@ export class LoginComponent {
 
   constructor(private authService: AuthService, private router: Router) { }
 
-  onSubmit() {
-    this.authService.login(this.email, this.password).subscribe(success => {
+  async onSubmit() {
+    try {
+      const success = await this.authService.login(this.email, this.password);
       if (success) {
         this.router.navigate(['/']);
       } else {
         alert('Login failed');
       }
-    });
+    } catch (error) {
+      console.error('Login error:', error);
+      alert('An error occurred during login');
+    }
   }
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/authService/auth.service';
+import { ProductService } from '../../services/productService/product.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -20,7 +21,7 @@ export class AddProductComponent {
   };
   selectedFiles: FileList | undefined;
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService, private productService: ProductService, private router: Router) {
     const userInfo = this.authService.getUserInfo();
     if (userInfo) {
       this.product.userId = userInfo.userId;
@@ -37,7 +38,8 @@ export class AddProductComponent {
       for (let i = 0; i < this.selectedFiles.length; i++) {
         const file = this.selectedFiles[i];
         const base64 = await this.readFileAsDataURL(file);
-        this.product.photos.push(base64);
+        const base64WithoutPrefix = this.removeBase64Prefix(base64);
+        this.product.photos.push(base64WithoutPrefix);
       }
     }
   }
@@ -51,9 +53,13 @@ export class AddProductComponent {
     });
   }
 
+  removeBase64Prefix(base64: string): string {
+    return base64.replace(/^data:image\/(png|jpeg);base64,/, '');
+  }
+
   async addProduct() {
     await this.uploadFiles();
-    this.authService.addProduct(this.product).subscribe(
+    this.productService.addProduct(this.product).subscribe(
       response => {
         if (response.success) {
           this.router.navigate(['/products']);

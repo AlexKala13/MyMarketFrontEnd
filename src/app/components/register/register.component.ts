@@ -18,11 +18,13 @@ export class RegisterComponent {
   
   constructor(private authService: AuthService, private router: Router) { }
 
-  onSubmit() {
-    this.authService.register(this.email, this.userName, this.firstName, this.lastName, this.address, this.telephone, this.password).subscribe(() => {
+  async onSubmit() {
+    try {
+      await this.authService.register(this.email, this.userName, this.password, this.firstName, this.lastName, this.address, this.telephone);
       this.router.navigate(['/login']);
-    }, error => {
+    } catch (error: any) {
       alert('Registration failed');
-    });
+      console.error('Registration error:', error);
+    }
   }
 }

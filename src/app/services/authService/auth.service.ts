@@ -1,40 +1,48 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { environment } from '../../environment/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'https://localhost:7039/api';
-
+  private url = 'Auth';
+  
   constructor(private http: HttpClient, private router: Router) { }
 
-  login(email: string, password: string): Observable<boolean> {
-    return this.http.post<any>(`${this.apiUrl}/Auth/Login`, { email, password })
-      .pipe(map(response => {
-        console.log(response);
-        if (response && response.data) {
-          const token = response.data;
-          localStorage.setItem('jwt_token', token);
+  async login(email: string, password: string): Promise<boolean> {
+    try {
+      const response = await this.http.post<any>(`${environment.apiUrl}/${this.url}/Login`, { email, password }).toPromise();
+      console.log(response);
+      if (response && response.data) {
+        const token = response.data;
+        localStorage.setItem('jwt_token', token);
 
-          const payload = JSON.parse(atob(token.split('.')[1]));
-          localStorage.setItem('user_id', payload.nameid);
-          localStorage.setItem('username', payload.unique_name);
-          localStorage.setItem('email', payload.email);
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        localStorage.setItem('user_id', payload.nameid);
+        localStorage.setItem('username', payload.unique_name);
+        localStorage.setItem('email', payload.email);
 
-          console.log("success login");
-          return true;
-        }
-        return false;
-      }));
+        console.log("success login");
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Error during login:', error);
+      return false;
+    }
   }
 
-  register(email: string, username: string, password: string, firstName: string, lastName: string, address: string, telephone: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/Auth/Register`, { email, username, password, firstName, lastName, address, telephone });
+  async register(email: string, username: string, password: string, firstName: string, lastName: string, address: string, telephone: string): Promise<any> {
+    try {
+      const response = await this.http.post<any>(`${environment.apiUrl}/${this.url}/Register`, { email, username, password, firstName, lastName, address, telephone }).toPromise();
+      return response;
+    } catch (error) {
+      console.error('Error during registration:', error);
+      throw error;
+    }
   }
 
   logout() {
@@ -77,10 +85,4 @@ export class AuthService {
       return null;
     }
   }
-  
-
-  addProduct(product: any): Observable<any> {
-    const userId = product.userId;
-    return this.http.post<any>(`https://localhost:7039/api/Advertisement/Upload?userId=${userId}`, product);
-  }  
 }
