@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Product, ApiResponse } from '../../models/product.model';
+import { environment } from '../../environment/environment';
 
 @Component({
   selector: 'app-products',
@@ -9,6 +10,8 @@ import { Product, ApiResponse } from '../../models/product.model';
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
+  private url = 'Advertisement';
+
   products: Product[] = [];
   categories: number[] = [1, 2, 3];
   filter: any = { name: '', category: '', date: '', minPrice: null, maxPrice: null };
@@ -40,7 +43,7 @@ export class ProductsComponent implements OnInit {
       params = params.set('priceMax', this.filter.maxPrice);
     }
 
-    this.http.get<any>('https://localhost:7039/api/Advertisement/GetAll', { params })
+    this.http.get<any>(`${environment.apiUrl}/${this.url}/GetAll`, { params })
     .subscribe(response => {
       if (response && response.data && Array.isArray(response.data.$values)) {
         this.products = response.data.$values;
