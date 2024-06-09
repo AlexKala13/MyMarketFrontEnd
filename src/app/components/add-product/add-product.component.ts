@@ -22,9 +22,9 @@ export class AddProductComponent {
   selectedFiles: FileList | undefined;
 
   constructor(private authService: AuthService, private productService: ProductService, private router: Router) {
-    const userInfo = this.authService.getUserInfo();
-    if (userInfo) {
-      this.product.userId = userInfo.userId;
+    const userId = this.authService.getUserId();
+    if (userId) {
+      this.product.userId = userId;
     }
   }
 

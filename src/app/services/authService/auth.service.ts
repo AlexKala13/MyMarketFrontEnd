@@ -15,7 +15,6 @@ export class AuthService {
   async login(email: string, password: string): Promise<boolean> {
     try {
       const response = await this.http.post<any>(`${environment.apiUrl}/${this.url}/Login`, { email, password }).toPromise();
-      console.log(response);
       if (response && response.data) {
         const token = response.data;
         localStorage.setItem('jwt_token', token);
@@ -24,8 +23,7 @@ export class AuthService {
         localStorage.setItem('user_id', payload.nameid);
         localStorage.setItem('username', payload.unique_name);
         localStorage.setItem('email', payload.email);
-
-        console.log("success login");
+        
         return true;
       }
       return false;
@@ -70,17 +68,10 @@ export class AuthService {
     return false;
   }
 
-  getUserInfo() {
+  getUserId() {
     const userId = localStorage.getItem('user_id');
-    const username = localStorage.getItem('username');
-    const email = localStorage.getItem('email');
-  
-    if (userId && username && email) {
-      return {
-        userId: parseInt(userId, 10),
-        username: username,
-        email: email
-      };
+    if (userId) {
+      return parseInt(userId, 10);
     } else {
       return null;
     }

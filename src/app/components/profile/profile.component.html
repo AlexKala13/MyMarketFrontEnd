@@ -1,6 +1,9 @@
 <div>
     <h1>Profile</h1>
-    <p><strong>Username:</strong> {{ user.username }}</p>
-    <p><strong>Email:</strong> {{ user.email }}</p>
-    <p><strong>User ID:</strong> {{ user.userId }}</p>
+    <p><strong>Username:</strong> {{ user.data.userName }}</p>
+    <p><strong>Email:</strong> {{ user.data.email }}</p>
+    <p><strong>User ID:</strong> {{ user.data.id }}</p>
+    <p><strong>User Balance:</strong> {{ user.data.balance }}</p>
+    <p><strong>User Firstname:</strong> {{ user.data.firstName }}</p>
+    <p><strong>User Lastname:</strong> {{ user.data.lastName }}</p>
 </div>

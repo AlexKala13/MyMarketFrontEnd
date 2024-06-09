@@ -11,6 +11,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { ProductsComponent } from './components/products/products.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AuthService } from './services/authService/auth.service';
+import { UserService } from './services/userService/user.service';
 import { ProductService } from './services/productService/product.service';
 import { AuthInterceptor } from './auth.interceptor';
 import { ProfileComponent } from './components/profile/profile.component';
@@ -49,6 +50,7 @@ export function tokenGetter() {
   providers: [
     AuthService,
     ProductService,
+    UserService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
