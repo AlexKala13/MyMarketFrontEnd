@@ -20,10 +20,10 @@ export class ProductsComponent implements OnInit {
     this.loadProducts();
   }
 
-  loadProducts() {
+  async loadProducts() {
     this.loading = true;
 
-    this.productService.getProducts(this.filter).subscribe(
+    (await this.productService.getProducts(this.filter)).subscribe(
       response => {
         if (response && response.data && Array.isArray(response.data.$values)) {
           this.products = response.data.$values;

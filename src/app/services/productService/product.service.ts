@@ -13,16 +13,16 @@ export class ProductService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  addProduct(product: any): Observable<any> {
+  async addProduct(product: any): Promise<Observable<any>> {
     const userId = product.userId;
-    return this.http.post<any>(`${environment.apiUrl}/${this.url}/Upload?userId=${userId}`, product);
+    return await this.http.post<any>(`${environment.apiUrl}/${this.url}/Upload?userId=${userId}`, product);
   }  
 
-  getProductDetails(id: number): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/${this.url}/${id}`);
+  async getProductDetails(id: number): Promise<Observable<any>> {
+    return await this.http.get<any>(`${environment.apiUrl}/${this.url}/${id}`);
   }
 
-  getProducts(filter: any): Observable<any> {
+  async getProducts(filter: any): Promise<Observable<any>> {
     let params = new HttpParams();
     if (filter.name) {
       params = params.set('name', filter.name);
@@ -40,6 +40,6 @@ export class ProductService {
       params = params.set('priceMax', filter.maxPrice);
     }
 
-    return this.http.get<any>(`${environment.apiUrl}/${this.url}/GetAll`, { params });
+    return await this.http.get<any>(`${environment.apiUrl}/${this.url}/GetAll`, { params });
   }
 }

@@ -21,9 +21,9 @@ export class ProductDetailsComponent implements OnInit {
     }
   }
 
-  loadProductDetails(id: number) {
+  async loadProductDetails(id: number) {
     this.loading = true;
-    this.productService.getProductDetails(id).subscribe(
+    (await this.productService.getProductDetails(id)).subscribe(
       response => {
         if (response && response.data) {
           this.product = { ...response.data, photos: response.data.photos?.['$values'] || [] } as ProductDetails;

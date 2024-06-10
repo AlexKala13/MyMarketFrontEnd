@@ -11,7 +11,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  getUserInfo(id: number): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/${this.url}/${id}`);
+  async getUserInfo(id: number): Promise<Observable<any>> {
+    return await this.http.get<any>(`${environment.apiUrl}/${this.url}/${id}`);
   }
 }

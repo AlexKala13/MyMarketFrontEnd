@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { JwtModule } from '@auth0/angular-jwt';
+import { JwtModule, JwtHelperService } from '@auth0/angular-jwt';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -42,8 +42,8 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        allowedDomains: ['your-backend-api-url'],
-        disallowedRoutes: ['http://your-backend-api-url/auth/']
+        allowedDomains: ['localhost:7039'],
+        disallowedRoutes: ['http://localhost:7039/api/Auth/Login', 'http://localhost:7039/api/Auth/Register']
       }
     })
   ],
@@ -51,6 +51,7 @@ export function tokenGetter() {
     AuthService,
     ProductService,
     UserService,
+    JwtHelperService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

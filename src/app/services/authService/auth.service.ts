@@ -48,7 +48,7 @@ export class AuthService {
     localStorage.removeItem('user_id');
     localStorage.removeItem('username');
     localStorage.removeItem('email');
-    this.router.navigate(['/login']);
+    this.router.navigate(['']);
   }
 
   public get loggedIn(): boolean {
@@ -66,6 +66,12 @@ export class AuthService {
       return !helper.isTokenExpired(token);
     }
     return false;
+  }
+
+  checkTokenExpiry() {
+    if (!this.isAuthenticated()) {
+      this.logout();
+    }
   }
 
   getUserId() {

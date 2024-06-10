@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/authService/auth.service';
 import { ProductService } from '../../services/productService/product.service';
 import { Router } from '@angular/router';
@@ -8,7 +8,8 @@ import { Router } from '@angular/router';
   templateUrl: './add-product.component.html',
   styleUrls: ['./add-product.component.css']
 })
-export class AddProductComponent {
+
+export class AddProductComponent implements OnInit {
   product: any = {
     userId: 0,
     name: '',
@@ -20,11 +21,18 @@ export class AddProductComponent {
     photos: []
   };
   selectedFiles: FileList | undefined;
+  errorMessage: string | null = null;
 
-  constructor(private authService: AuthService, private productService: ProductService, private router: Router) {
-    const userId = this.authService.getUserId();
-    if (userId) {
-      this.product.userId = userId;
+  constructor(private authService: AuthService, private productService: ProductService, private router: Router) {}
+
+  ngOnInit() {
+    if (!this.authService.isAuthenticated()) {
+      this.router.navigate(['/login']);
+    } else {
+      const userId = this.authService.getUserId();
+      if (userId) {
+        this.product.userId = userId;
+      }
     }
   }
 
@@ -58,19 +66,26 @@ export class AddProductComponent {
   }
 
   async addProduct() {
-    await this.uploadFiles();
-    this.productService.addProduct(this.product).subscribe(
+    if (!this.authService.isAuthenticated()) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    this.uploadFiles();
+    (await this.productService.addProduct(this.product)).subscribe(
       response => {
         if (response.success) {
           this.router.navigate(['/products']);
         } else {
-          console.error(response.message);
+          this.errorMessage = response.message;
         }
       },
       error => {
         console.error('Error adding product', error);
-        if (error.error && error.error.errors) {
-          console.error('Validation errors:', error.error.errors);
+        if (error.error && error.error.message) {
+          this.errorMessage = error.error.message;
+        } else {
+          this.errorMessage = 'An unexpected error occurred. Please try again later.';
         }
       }
     );
