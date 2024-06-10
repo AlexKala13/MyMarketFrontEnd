@@ -71,7 +71,7 @@ export class AddProductComponent implements OnInit {
       return;
     }
 
-    this.uploadFiles();
+    await this.uploadFiles();
     (await this.productService.addProduct(this.product)).subscribe(
       response => {
         if (response.success) {

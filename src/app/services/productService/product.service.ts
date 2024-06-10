@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from '../../environment/environment';
 import { Product, ApiResponse } from '../../models/product.model';
+import { ProductDetails } from '../../models/product-details.model';
 
 @Injectable({
     providedIn: 'root'
@@ -41,5 +42,9 @@ export class ProductService {
     }
 
     return await this.http.get<any>(`${environment.apiUrl}/${this.url}/GetAll`, { params });
+  }
+
+  async editProduct(id: number, user: number, product: ProductDetails): Promise<Observable<any>> {
+    return await this.http.put<any>(`${environment.apiUrl}/${this.url}/Edit/${id}?userId=${user}`, product);
   }
 }

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../services/productService/product.service';
 import { ProductDetails } from '../../models/product-details.model';
+import { AuthService } from '../../services/authService/auth.service';
 
 @Component({
   selector: 'app-product-details',
@@ -12,7 +13,7 @@ export class ProductDetailsComponent implements OnInit {
   product: ProductDetails | null = null;
   loading: boolean = false;
 
-  constructor(private route: ActivatedRoute, private productService: ProductService) { }
+  constructor(private route: ActivatedRoute, private productService: ProductService, private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     const productId = this.route.snapshot.paramMap.get('id');
@@ -27,7 +28,6 @@ export class ProductDetailsComponent implements OnInit {
       response => {
         if (response && response.data) {
           this.product = { ...response.data, photos: response.data.photos?.['$values'] || [] } as ProductDetails;
-          console.log(response.data);
         } else {
           this.product = null;
         }
@@ -39,5 +39,17 @@ export class ProductDetailsComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+
+  isCurrentUserAuthor(): boolean {
+    const userId = this.authService.getUserId();
+    return userId === this.product?.userId;
+  }
+
+  editProduct(): void {
+    const productId = this.product?.id;
+    if (productId) {
+      this.router.navigate(['/edit-product', productId]);
+    }
   }
 }

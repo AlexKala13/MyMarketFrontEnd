@@ -17,6 +17,7 @@ import { AuthInterceptor } from './auth.interceptor';
 import { ProfileComponent } from './components/profile/profile.component';
 import { AddProductComponent } from './components/add-product/add-product.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import { EditProductComponent } from './components/edit-product/edit-product.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt_token');
@@ -32,7 +33,8 @@ export function tokenGetter() {
     NavbarComponent,
     ProfileComponent,
     AddProductComponent,
-    ProductDetailsComponent
+    ProductDetailsComponent,
+    EditProductComponent
   ],
   imports: [
     BrowserModule,

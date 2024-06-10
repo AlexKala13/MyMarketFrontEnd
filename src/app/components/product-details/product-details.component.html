@@ -18,3 +18,4 @@
 <div *ngIf="!loading && !product">
   <p>Product not found</p>
 </div>
+<button *ngIf="isCurrentUserAuthor()" (click)="editProduct()">Edit</button>
