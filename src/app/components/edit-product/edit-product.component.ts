@@ -23,8 +23,8 @@ export class EditProductComponent implements OnInit {
   errorMessage: string | null = null;
   loading: boolean = false;
   userId: number | null | undefined;
-  existingPhotos: string[] = [];
-  deletedPhotos: string[] = []; 
+  existingPhotosBase64: string[] = [];
+  deletedPhotosIndexes: number[] = [];
 
   constructor(private route: ActivatedRoute, private router: Router, private authService: AuthService, private productService: ProductService) { }
 
@@ -40,12 +40,7 @@ export class EditProductComponent implements OnInit {
     (await this.productService.getProductDetails(productId)).subscribe(
       response => {
         if (response.success) {
-          this.product = { ...response.data, photos: response.data.photos?.['$values'] || [] };
-          if (this.product.photos) {
-            this.existingPhotos = this.product.photos.map((photo: any) => photo.image);
-            this.product.photos = this.existingPhotos;
-            console.log(this.product.photos);
-          }
+          this.product = { ...response.data, photos: response.data.photos?.['$values']?.map((photo: any) => this.removeBase64Prefix(photo.image)) || [] };
         } else {
           console.error('Error loading product details:', response.message);
         }
@@ -60,20 +55,17 @@ export class EditProductComponent implements OnInit {
     const files = event.target.files;
     if (files && files.length > 0) {
       for (let i = 0; i < files.length; i++) {
-        this.selectedFiles.push(files[i]);
-        this.readFileAsDataURL(files[i]).then(base64 => {
-          this.product.photos.push(this.removeBase64Prefix(base64));
-        });
+        if (!this.selectedFiles.some(file => file.name === files[i].name)) {
+          this.selectedFiles.push(files[i]);
+          this.readFileAsDataURL(files[i]).then(base64 => {
+            const base64WithoutPrefix = this.removeBase64Prefix(base64);
+            if (!this.product.photos.includes(base64WithoutPrefix)) {
+              this.product.photos.push(base64WithoutPrefix);
+            }
+          });
+        }
       }
     }
-  }
-
-  async readFilesAsDataURLs(files: FileList): Promise<string[]> {
-    const fileReadPromises = [];
-    for (let i = 0; i < files.length; i++) {
-      fileReadPromises.push(this.readFileAsDataURL(files[i]));
-    }
-    return Promise.all(fileReadPromises);
   }
 
   readFileAsDataURL(file: File): Promise<string> {
@@ -91,22 +83,13 @@ export class EditProductComponent implements OnInit {
 
   removePhoto(index: number) {
     if (index > -1) {
-      if (index < this.existingPhotos.length) {
-        const removedPhoto = this.existingPhotos.splice(index, 1)[0];
-        this.deletedPhotos.push(removedPhoto);
+      if (index < this.existingPhotosBase64.length) {
+        this.deletedPhotosIndexes.push(index);
       } else {
-        const adjustedIndex = index - this.existingPhotos.length;
+        const adjustedIndex = index - this.existingPhotosBase64.length;
         this.selectedFiles.splice(adjustedIndex, 1);
       }
       this.product.photos.splice(index, 1);
-    }
-  }
-
-  async uploadFiles() {
-    for (let i = 0; i < this.selectedFiles.length; i++) {
-      const base64 = await this.readFileAsDataURL(this.selectedFiles[i]);
-      const base64WithoutPrefix = this.removeBase64Prefix(base64);
-      this.product.photos.push(base64WithoutPrefix);
     }
   }
 
@@ -116,12 +99,13 @@ export class EditProductComponent implements OnInit {
       return;
     }
 
-    await this.uploadFiles();
-    const updatedProduct = { ...this.product, deletedPhotos: this.deletedPhotos };
+    for (let i = this.deletedPhotosIndexes.length - 1; i >= 0; i--) {
+      this.product.photos.splice(this.deletedPhotosIndexes[i], 1);
+    }
 
-    console.log(updatedProduct);
+    console.log(this.product);
 
-    (await this.productService.editProduct(this.product.id, this.product.userId, updatedProduct)).subscribe(
+    (await this.productService.editProduct(this.product.id, this.product.userId, this.product)).subscribe(
       response => {
         if (response.success) {
           this.router.navigate(['/products']);
