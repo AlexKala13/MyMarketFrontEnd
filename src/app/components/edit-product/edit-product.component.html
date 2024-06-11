@@ -1,37 +1,36 @@
 <div *ngIf="product">
-    <h2>Edit Product</h2>
-    <form (ngSubmit)="updateProduct()">
-      <div>
-        <label for="name">Name:</label>
-        <input id="name" type="text" [(ngModel)]="product.name" name="name" required />
+  <h2>Edit Product</h2>
+  <form (ngSubmit)="updateProduct()">
+    <div>
+      <label for="name">Name:</label>
+      <input id="name" type="text" [(ngModel)]="product.name" name="name" required />
+    </div>
+    <div>
+      <label for="description">Description:</label>
+      <input id="description" type="text" [(ngModel)]="product.description" name="description" required />
+    </div>
+    <div>
+      <label for="categoryId">Category:</label>
+      <input id="categoryId" type="number" [(ngModel)]="product.categoryId" name="categoryId" required />
+    </div>
+    <div>
+      <label for="price">Price:</label>
+      <input id="price" type="number" [(ngModel)]="product.price" name="price" required />
+    </div>
+    <div>
+      <label for="status">Status:</label>
+      <input id="status" type="number" [(ngModel)]="product.status" name="status" required />
+    </div>
+    <div *ngIf="product.photos && product.photos.length > 0">
+      <div *ngFor="let photo of product.photos; let i = index">
+        <img *ngIf="photo" [src]="'data:image/jpeg;base64,' + photo" alt="{{ product.name }}" />
+        <button type="button" (click)="removePhoto(i)">Delete</button>
       </div>
-      <div>
-        <label for="description">Description:</label>
-        <input id="description" type="text" [(ngModel)]="product.description" name="description" required />
-      </div>
-      <div>
-        <label for="categoryId">Category:</label>
-        <input id="categoryId" type="number" [(ngModel)]="product.categoryId" name="categoryId" required />
-      </div>
-      <div>
-        <label for="price">Price:</label>
-        <input id="price" type="number" [(ngModel)]="product.price" name="price" required />
-      </div>
-      <div>
-        <label for="status">Status:</label>
-        <input id="status" type="number" [(ngModel)]="product.status" name="status" required />
-      </div>
-      <div *ngIf="product.photos && product.photos.length > 0">
-        <div *ngFor="let photo of product.photos">
-          <img *ngIf="photo.image" [src]="'data:image/jpeg;base64,' + photo.image" alt="{{ product.name }}" />
-          <button (click)="removePhoto(photo)">Delete</button>
-        </div>
-      </div>
-      <div>
-        <input type="file" (change)="onFileChange($event)" multiple />
-      </div>
-      <button type="submit" [disabled]="loading">Save Changes</button>
-    </form>
-    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-  </div>
-  
+    </div>
+    <div>
+      <input type="file" (change)="onFileChange($event)" multiple />
+    </div>
+    <button type="submit" [disabled]="loading">Save Changes</button>
+  </form>
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+</div>

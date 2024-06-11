@@ -19,11 +19,12 @@ export class EditProductComponent implements OnInit {
     status: 0,
     photos: []
   };
-  selectedFiles: FileList | undefined;
+  selectedFiles: File[] = [];
   errorMessage: string | null = null;
   loading: boolean = false;
   userId: number | null | undefined;
-  
+  existingPhotos: string[] = [];
+  deletedPhotos: string[] = []; 
 
   constructor(private route: ActivatedRoute, private router: Router, private authService: AuthService, private productService: ProductService) { }
 
@@ -33,13 +34,18 @@ export class EditProductComponent implements OnInit {
       this.loadProductDetails(+productId);
       this.userId = this.authService.getUserId();
     }
-  }  
+  }
 
   async loadProductDetails(productId: number) {
     (await this.productService.getProductDetails(productId)).subscribe(
       response => {
         if (response.success) {
           this.product = { ...response.data, photos: response.data.photos?.['$values'] || [] };
+          if (this.product.photos) {
+            this.existingPhotos = this.product.photos.map((photo: any) => photo.image);
+            this.product.photos = this.existingPhotos;
+            console.log(this.product.photos);
+          }
         } else {
           console.error('Error loading product details:', response.message);
         }
@@ -48,33 +54,26 @@ export class EditProductComponent implements OnInit {
         console.error('Error loading product details:', error);
       }
     );
-  }  
-  
+  }
+
   onFileChange(event: any) {
-    if (!this.product.photos) {
-      this.product.photos = [];
-    }
     const files = event.target.files;
-    if (files) {
+    if (files && files.length > 0) {
       for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        this.readFileAsDataURL(file).then(base64 => {
-          this.product.photos.push(base64);
+        this.selectedFiles.push(files[i]);
+        this.readFileAsDataURL(files[i]).then(base64 => {
+          this.product.photos.push(this.removeBase64Prefix(base64));
         });
       }
     }
   }
 
-  async uploadFiles() {
-    this.product.photos = [];
-    if (this.selectedFiles) {
-      for (let i = 0; i < this.selectedFiles.length; i++) {
-        const file = this.selectedFiles[i];
-        const base64 = await this.readFileAsDataURL(file);
-        const base64WithoutPrefix = this.removeBase64Prefix(base64);
-        this.product.photos.push(base64WithoutPrefix);
-      }
+  async readFilesAsDataURLs(files: FileList): Promise<string[]> {
+    const fileReadPromises = [];
+    for (let i = 0; i < files.length; i++) {
+      fileReadPromises.push(this.readFileAsDataURL(files[i]));
     }
+    return Promise.all(fileReadPromises);
   }
 
   readFileAsDataURL(file: File): Promise<string> {
@@ -84,29 +83,44 @@ export class EditProductComponent implements OnInit {
       reader.onerror = reject;
       reader.readAsDataURL(file);
     });
-  } 
+  }
 
   removeBase64Prefix(base64: string): string {
     return base64.replace(/^data:image\/(png|jpeg);base64,/, '');
   }
 
-  removePhoto(photo: any) {
-    const index = this.product.photos.indexOf(photo);
-    if (index !== -1) {
+  removePhoto(index: number) {
+    if (index > -1) {
+      if (index < this.existingPhotos.length) {
+        const removedPhoto = this.existingPhotos.splice(index, 1)[0];
+        this.deletedPhotos.push(removedPhoto);
+      } else {
+        const adjustedIndex = index - this.existingPhotos.length;
+        this.selectedFiles.splice(adjustedIndex, 1);
+      }
       this.product.photos.splice(index, 1);
     }
-  }  
+  }
+
+  async uploadFiles() {
+    for (let i = 0; i < this.selectedFiles.length; i++) {
+      const base64 = await this.readFileAsDataURL(this.selectedFiles[i]);
+      const base64WithoutPrefix = this.removeBase64Prefix(base64);
+      this.product.photos.push(base64WithoutPrefix);
+    }
+  }
 
   async updateProduct() {
     if (!this.authService.isAuthenticated()) {
       this.router.navigate(['/login']);
       return;
     }
-  
-    this.uploadFiles();
-    const updatedProduct = { ...this.product };
-    updatedProduct.photos = this.product.photos.filter((photo: { image: any; }) => photo.image);
-  
+
+    await this.uploadFiles();
+    const updatedProduct = { ...this.product, deletedPhotos: this.deletedPhotos };
+
+    console.log(updatedProduct);
+
     (await this.productService.editProduct(this.product.id, this.product.userId, updatedProduct)).subscribe(
       response => {
         if (response.success) {
