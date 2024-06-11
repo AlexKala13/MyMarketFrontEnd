@@ -52,4 +52,25 @@ export class ProductDetailsComponent implements OnInit {
       this.router.navigate(['/edit-product', productId]);
     }
   }
+
+  async deleteProduct(): Promise<void> {
+    if (this.product && this.product.id !== null) {
+      const confirmed = confirm('Are you sure you want to delete this product?');
+      if (confirmed) {
+        const userId = this.authService.getUserId();
+        if (userId !== null) {
+          (await this.productService.deleteProduct(this.product.id, userId)).subscribe(
+            response => {
+              alert('Product deleted successfully.');
+              this.router.navigate(['/products']);
+            },
+            error => {
+              console.error('Error deleting product', error);
+              alert('Failed to delete the product.');
+            }
+          );
+        }
+      }
+    }
+  }
 }

@@ -13,9 +13,10 @@
       <img *ngIf="photo.image" [src]="'data:image/jpeg;base64,' + photo.image" alt="{{ product.name }}" />
     </div>
   </div>
-  <p *ngIf="!product.photos.length" > No photos</p>
+  <p *ngIf="!product.photos.length">No photos</p>
 </div>
 <div *ngIf="!loading && !product">
   <p>Product not found</p>
 </div>
 <button *ngIf="isCurrentUserAuthor()" (click)="editProduct()">Edit</button>
+<button *ngIf="isCurrentUserAuthor()" (click)="deleteProduct()">Delete</button>
