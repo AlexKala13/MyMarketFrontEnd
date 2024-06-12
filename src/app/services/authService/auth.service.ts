@@ -33,6 +33,26 @@ export class AuthService {
     }
   }
 
+  async forgotPassword(email: string): Promise<any> {
+    try {
+      const response = await this.http.post<any>(`${environment.apiUrl}/${this.url}/ForgotPassword`, { email }).toPromise();
+      return response;
+    } catch (error) {
+      console.error('Error during forgot password:', error);
+      throw error;
+    }
+  }
+
+  async resetPassword(email: string, token: string, newPassword: string): Promise<any> {
+    try {
+      const response = await this.http.post<any>(`${environment.apiUrl}/${this.url}/ResetPassword`, { email, token, newPassword }).toPromise();
+      return response;
+    } catch (error) {
+      console.error('Error during reset password:', error);
+      throw error;
+    }
+  }
+
   async register(email: string, username: string, password: string, firstName: string, lastName: string, address: string, telephone: string): Promise<any> {
     try {
       const response = await this.http.post<any>(`${environment.apiUrl}/${this.url}/Register`, { email, username, password, firstName, lastName, address, telephone }).toPromise();

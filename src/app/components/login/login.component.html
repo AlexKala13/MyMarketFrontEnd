@@ -10,3 +10,30 @@
   </div>
   <button type="submit">Login</button>
 </form>
+<button (click)="openForgotPasswordModal()">Forgot Password?</button>
+
+<!-- Forgot Password Modal -->
+<div id="forgotPasswordModal" *ngIf="isForgotPasswordModalOpen">
+  <div class="modal-content">
+    <span class="close" (click)="closeForgotPasswordModal()">&times;</span>
+    <h2>Forgot Password</h2>
+    <form *ngIf="!isResetPasswordMode" (submit)="onForgotPasswordSubmit()">
+      <div>
+        <label for="forgotEmail">Email:</label>
+        <input type="text" id="forgotEmail" [(ngModel)]="forgotEmail" name="forgotEmail" required>
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+    <form *ngIf="isResetPasswordMode" (submit)="onResetPasswordSubmit()">
+      <div>
+        <label for="resetCode">Reset Code:</label>
+        <input type="text" id="resetCode" [(ngModel)]="resetCode" name="resetCode" required>
+      </div>
+      <div>
+        <label for="newPassword">New Password:</label>
+        <input type="password" id="newPassword" [(ngModel)]="newPassword" name="newPassword" required>
+      </div>
+      <button type="submit">Reset Password</button>
+    </form>
+  </div>
+</div>
