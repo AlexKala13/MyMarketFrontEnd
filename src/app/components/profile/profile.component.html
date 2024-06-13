@@ -6,7 +6,56 @@
     <p><strong>User Balance:</strong> {{ user?.data.balance }}</p>
     <p><strong>User Firstname:</strong> {{ user?.data.firstName }}</p>
     <p><strong>User Lastname:</strong> {{ user?.data.lastName }}</p>
+    <button (click)="openEditModal()">Edit Profile</button>
+    <button (click)="deactivateProfile()">Deactivate Profile</button>
 </div>
 <div *ngIf="!user">
     <p>Loading...</p>
+</div>
+
+<!-- Edit Profile Modal -->
+<div *ngIf="isEditModalOpen" class="modal">
+  <div class="modal-content">
+    <span class="close" (click)="closeEditModal()">&times;</span>
+    <h2>Edit Profile</h2>
+    <form (ngSubmit)="saveProfile()">
+      <label>Email:</label>
+      <input type="email" [(ngModel)]="editUser.email" name="email" required>
+      <div *ngIf="errors.email" class="error">{{ errors.email }}</div>
+
+      <label>Username:</label>
+      <input type="text" [(ngModel)]="editUser.userName" name="userName" required>
+      <div *ngIf="errors.userName" class="error">{{ errors.userName }}</div>
+
+      <label>First Name:</label>
+      <input type="text" [(ngModel)]="editUser.firstName" name="firstName" required>
+      <div *ngIf="errors.firstName" class="error">{{ errors.firstName }}</div>
+
+      <label>Last Name:</label>
+      <input type="text" [(ngModel)]="editUser.lastName" name="lastName" required>
+      <div *ngIf="errors.lastName" class="error">{{ errors.lastName }}</div>
+
+      <label>Address:</label>
+      <input type="text" [(ngModel)]="editUser.address" name="address" required>
+      <div *ngIf="errors.address" class="error">{{ errors.address }}</div>
+
+      <label>Telephone:</label>
+      <input type="text" [(ngModel)]="editUser.telephone" name="telephone" required>
+      <div *ngIf="errors.telephone" class="error">{{ errors.telephone }}</div>
+
+      <button type="button" (click)="togglePasswordChange()">Change Password</button>
+      
+      <div *ngIf="showPasswordFields">
+        <label>Old Password:</label>
+        <input type="text" [(ngModel)]="editUser.oldPassword" name="oldPassword">
+        <div *ngIf="errors.oldPassword" class="error">{{ errors.oldPassword }}</div>
+
+        <label>New Password:</label>
+        <input type="text" [(ngModel)]="editUser.newPassword" name="newPassword">
+        <div *ngIf="errors.newPassword" class="error">{{ errors.newPassword }}</div>
+      </div>
+      
+      <button type="submit">Save</button>
+    </form>
+  </div>
 </div>

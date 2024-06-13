@@ -14,4 +14,8 @@ export class UserService {
   async getUserInfo(id: number): Promise<Observable<any>> {
     return await this.http.get<any>(`${environment.apiUrl}/${this.url}/${id}`);
   }
+
+  async editUserInfo(id: number, userInfo: any): Promise<any> {
+    return await this.http.put<any>(`${environment.apiUrl}/${this.url}/Edit/${id}`, userInfo).toPromise();
+  }
 }
