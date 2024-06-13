@@ -8,6 +8,7 @@
     <p><strong>User Lastname:</strong> {{ user?.data.lastName }}</p>
     <button (click)="openEditModal()">Edit Profile</button>
     <button (click)="deactivateProfile()">Deactivate Profile</button>
+    <button (click)="viewCreditCards()">View Credit Cards</button>
 </div>
 <div *ngIf="!user">
     <p>Loading...</p>

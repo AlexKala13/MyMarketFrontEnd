@@ -18,6 +18,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { AddProductComponent } from './components/add-product/add-product.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { EditProductComponent } from './components/edit-product/edit-product.component';
+import { CreditCardsComponent } from './components/credit-cards/credit-cards.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt_token');
@@ -34,7 +35,8 @@ export function tokenGetter() {
     ProfileComponent,
     AddProductComponent,
     ProductDetailsComponent,
-    EditProductComponent
+    EditProductComponent,
+    CreditCardsComponent
   ],
   imports: [
     BrowserModule,

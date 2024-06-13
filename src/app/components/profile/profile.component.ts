@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/authService/auth.service';
 import { UserService } from '../../services/userService/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -16,7 +17,7 @@ export class ProfileComponent implements OnInit {
   showPasswordFields: boolean = false;
   oldPasswordError: string = '';
 
-  constructor(private userService: UserService, private authService: AuthService) { }
+  constructor(private userService: UserService, private authService: AuthService, private router: Router) { }
 
   async ngOnInit(): Promise<void> {
     const userId = this.authService.getUserId();
@@ -31,6 +32,10 @@ export class ProfileComponent implements OnInit {
     } else {
       console.error('User ID not found in local storage');
     }
+  }
+
+  viewCreditCards(): void {
+    this.router.navigate(['/credit-cards']);
   }
 
   openEditModal(): void {
