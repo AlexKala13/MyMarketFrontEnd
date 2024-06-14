@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../services/productService/product.service';
 import { ProductDetails } from '../../models/product-details.model';
 import { AuthService } from '../../services/authService/auth.service';
+import { CartService } from '../../services/cartService/cart.service';
 
 @Component({
   selector: 'app-product-details',
@@ -13,7 +14,7 @@ export class ProductDetailsComponent implements OnInit {
   product: ProductDetails | null = null;
   loading: boolean = false;
 
-  constructor(private route: ActivatedRoute, private productService: ProductService, private authService: AuthService, private router: Router) { }
+  constructor(private route: ActivatedRoute, private productService: ProductService, private authService: AuthService, private router: Router, private cartService: CartService) { }
 
   ngOnInit(): void {
     const productId = this.route.snapshot.paramMap.get('id');
@@ -71,6 +72,16 @@ export class ProductDetailsComponent implements OnInit {
           );
         }
       }
+    }
+  }
+
+  addToCart(): void {
+    if (this.product) {
+      const { id, name, price, photos } = this.product;
+      const photo = photos.length > 0 ? `data:image/jpeg;base64,${photos[0].image}` : '';
+      const productForCart = { id, name, price, photo };
+      this.cartService.addToCart(productForCart);
+      alert('Product added to cart!');
     }
   }
 }

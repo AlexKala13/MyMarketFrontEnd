@@ -9,6 +9,7 @@ import { AddProductComponent } from './components/add-product/add-product.compon
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { EditProductComponent } from './components/edit-product/edit-product.component';
 import { CreditCardsComponent } from './components/credit-cards/credit-cards.component';
+import { CartComponent } from './components/cart/cart.component';
 import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
@@ -20,7 +21,8 @@ const routes: Routes = [
   { path: 'add-product', component: AddProductComponent, canActivate: [AuthGuard] },
   { path: 'product/:id', component: ProductDetailsComponent },
   { path: 'edit-product/:id', component: EditProductComponent, canActivate: [AuthGuard] },
-  { path: 'credit-cards', component: CreditCardsComponent, canActivate: [AuthGuard] }
+  { path: 'credit-cards', component: CreditCardsComponent, canActivate: [AuthGuard] },
+  { path: 'cart', component: CartComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

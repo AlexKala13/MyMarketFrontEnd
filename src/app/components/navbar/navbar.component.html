@@ -4,6 +4,7 @@
     <a *ngIf="!authService.loggedIn" routerLink="/login">Login</a>
     <a *ngIf="!authService.loggedIn" routerLink="/register">Register</a>
     <a *ngIf="authService.loggedIn" routerLink="/profile">Profile</a>
+    <a *ngIf="authService.loggedIn" routerLink="/cart">Cart</a>
     <a *ngIf="authService.loggedIn" routerLink="/add-product">Add Product</a>
     <a *ngIf="authService.loggedIn" (click)="logout()">Logout</a>
   </nav>
