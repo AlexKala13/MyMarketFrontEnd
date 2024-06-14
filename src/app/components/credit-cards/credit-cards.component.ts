@@ -133,9 +133,9 @@ export class CreditCardsComponent implements OnInit {
     }
   }
 
-  async deleteCard(card: any): Promise<void> {
-    if (this.selectedCardId !== null) {
-      (await this.debitCardService.deleteCard(this.selectedCardId, this.userId!)).subscribe(
+  async deleteCard(cardId: number): Promise<void> {
+    if (this.userId !== null) {
+      (await this.debitCardService.deleteCard(cardId, this.userId)).subscribe(
         (response) => {
           console.log('Card deleted successfully:', response);
           this.loadUser();
