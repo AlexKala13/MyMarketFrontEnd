@@ -14,11 +14,16 @@ export class CreditCardsComponent implements OnInit {
   user: any = null;
   isTransferModalOpen: boolean = false;
   isWithdrawModalOpen: boolean = false;
+  isAddCardModalOpen: boolean = false; // Flag for add card modal
   transferAmount: number = 0;
   withdrawAmount: number = 0;
   transferAmountInvalid: boolean = false;
   withdrawAmountInvalid: boolean = false;
   selectedCardId: number | null = null; // To store selected card ID
+  newCardName: string = '';
+  newCardNumber: string = '';
+  newCardNameRequiredError: boolean = false;
+  newCardNumberRequiredError: boolean = false;
 
   constructor(private debitCardService: DebitCardService, private authService: AuthService, private userService: UserService) { }
 
@@ -145,6 +150,55 @@ export class CreditCardsComponent implements OnInit {
           console.error('Error deleting card:', error);
         }
       );
+    }
+  }
+
+  openAddCardModal(): void {
+    this.isAddCardModalOpen = true;
+    this.newCardName = '';
+    this.newCardNumber = '';
+    this.newCardNameRequiredError = false;
+    this.newCardNumberRequiredError = false;
+  }
+
+  closeAddCardModal(): void {
+    this.isAddCardModalOpen = false;
+    this.newCardName = '';
+    this.newCardNumber = '';
+    this.newCardNameRequiredError = false;
+    this.newCardNumberRequiredError = false;
+  }
+
+  async addNewCard(): Promise<void> {
+    if (this.newCardName.trim() === '') {
+      this.newCardNameRequiredError = true;
+    } else {
+      this.newCardNameRequiredError = false;
+    }
+
+    if (this.newCardNumber.trim() === '') {
+      this.newCardNumberRequiredError = true;
+    } else {
+      this.newCardNumberRequiredError = false;
+    }
+
+    if (this.newCardNameRequiredError || this.newCardNumberRequiredError) {
+      return;
+    }
+
+    const newCardData = {
+      userId: this.userId!,
+      cardName: this.newCardName.trim(),
+      cardNumber: this.newCardNumber.trim()
+    };
+
+    try {
+      const response = await (await this.debitCardService.addCard(newCardData)).toPromise();
+      console.log('New card added:', response);
+      this.closeAddCardModal(); // Close modal after successful addition
+      this.loadCards(); // Refresh cards list after adding new card
+    } catch (error) {
+      console.error('Error adding new card:', error);
     }
   }
 }

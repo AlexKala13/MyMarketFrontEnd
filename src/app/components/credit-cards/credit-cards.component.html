@@ -3,6 +3,9 @@
   <h4><strong>User Balance:</strong> {{ user?.data.balance }}</h4>
 </div>
 
+<!-- Add New Card Button -->
+<button class="add-card-button" (click)="openAddCardModal()">Add New Card</button>
+
 <!-- credit-cards.component.html -->
 <div>
   <h1>Credit Cards</h1>
@@ -52,5 +55,24 @@
     <input type="number" [(ngModel)]="withdrawAmount" required>
     <div *ngIf="withdrawAmountInvalid" class="error">Amount must be greater than 0</div>
     <button (click)="withdrawFromCard()">Submit</button>
+  </div>
+</div>
+
+<!-- Add New Card Modal -->
+<div *ngIf="isAddCardModalOpen" class="modal">
+  <div class="modal-content">
+    <span class="close" (click)="closeAddCardModal()">&times;</span>
+    <h2>Add New Card</h2>
+    <form>
+      <label>Card Name:</label>
+      <input type="text" [(ngModel)]="newCardName" name="newCardName" required>
+      <div *ngIf="newCardNameRequiredError" class="error">Card Name is required</div>
+      <br>
+      <label>Card Number:</label>
+      <input type="text" [(ngModel)]="newCardNumber" name="newCardNumber" required>
+      <div *ngIf="newCardNumberRequiredError" class="error">Card Number is required</div>
+      <br>
+      <button type="button" (click)="addNewCard()">Add Card</button>
+    </form>
   </div>
 </div>

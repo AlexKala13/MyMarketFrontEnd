@@ -34,4 +34,8 @@ export class DebitCardService {
   async deleteCard(cardId: number, userId: number): Promise<Observable<any>> {
     return await this.http.delete<any>(`${this.apiUrl}/Delete/${cardId}?userId=${userId}`);
   }
+
+  async addCard(newCard: any): Promise<Observable<any>> {
+    return await this.http.post<any>(`${this.apiUrl}/Add`, newCard);
+  }
 }
