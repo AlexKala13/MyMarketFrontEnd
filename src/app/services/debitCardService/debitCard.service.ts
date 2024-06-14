@@ -15,25 +15,23 @@ export class DebitCardService {
     return await this.http.get<any>(`${this.apiUrl}/GetAll?userId=${userId}`);
   }
 
-  async transferToCard(cardId: number, userId: number, amount: number) {
-    let params = new HttpParams();
-    if (cardId) {
-      params = params.set('debitCard', cardId);
-    }
-    if (userId) {
-      params = params.set('userId', userId);
-    }
-    if (amount) {
-      params = params.set('amount', amount);
-    }
-    return await this.http.post<any>(`${this.apiUrl}/AddToCard`, { params });
+  async transferToCard(cardId: number, userId: number, amount: number): Promise<Observable<any>> {
+    const params = new HttpParams()
+      .set('debitCard', cardId.toString())
+      .set('userId', userId.toString())
+      .set('amount', amount.toString());
+    return await this.http.post<any>(`${this.apiUrl}/AddToCard`, {}, { params });
   }
 
-  withdrawFromCard(cardId: number, amount: number) {
-    return this.http.post<any>(`${this.apiUrl}/WithdrawFromCard`, { cardId, amount });
+  async withdrawFromCard(cardId: number, userId: number, amount: number): Promise<Observable<any>> {
+    const params = new HttpParams()
+      .set('debitCard', cardId.toString())
+      .set('userId', userId.toString())
+      .set('amount', amount.toString());
+    return await this.http.post<any>(`${this.apiUrl}/AddToBalance`, {}, { params });
   }
 
-  deleteCard(cardId: number) {
-    return this.http.delete<any>(`${this.apiUrl}/Delete/${cardId}`);
+  async deleteCard(cardId: number, userId: number): Promise<Observable<any>> {
+    return await this.http.delete<any>(`${this.apiUrl}/Delete/${cardId}?userId=${userId}`);
   }
 }

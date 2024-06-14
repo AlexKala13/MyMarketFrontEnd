@@ -1,35 +1,45 @@
-<table>
-  <thead>
-    <tr>
-      <th>Card Name</th>
-      <th>Card Number</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let card of cards">
-      <td>{{ card.cardName }}</td>
-      <td>{{ card.cardNumber }}</td>
-      <td>
-        <button (click)="openTransferModal(card)">Transfer to Card</button>
-        <button (click)="openWithdrawModal(card)">Withdraw from Card</button>
-        <button (click)="deleteCard(card.id)">Delete Card</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="user">
+  <h4><strong>Username:</strong> {{ user?.data.userName }}</h4>
+  <h4><strong>User Balance:</strong> {{ user?.data.balance }}</h4>
+</div>
+
+<!-- credit-cards.component.html -->
+<div>
+  <h1>Credit Cards</h1>
+  <div *ngIf="cards.length === 0">No cards available</div>
+  <table *ngIf="cards.length > 0">
+    <thead>
+      <tr>
+        <th>Card Name</th>
+        <th>Card Number</th>
+        <th>Balance</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let card of cards">
+        <td>{{ card.cardName }}</td>
+        <td>{{ card.cardNumber }}</td>
+        <td>{{ card.cardAmount }}</td>
+        <td>
+          <button (click)="openTransferModal(card)">Transfer to Card</button>
+          <button (click)="openWithdrawModal(card)">Withdraw from Card</button>
+          <button (click)="deleteCard(card)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 <!-- Transfer Modal -->
 <div *ngIf="isTransferModalOpen" class="modal">
   <div class="modal-content">
     <span class="close" (click)="closeTransferModal()">&times;</span>
     <h2>Transfer to Card</h2>
-    <form (ngSubmit)="transferToCard()">
-      <label>Amount:</label>
-      <input type="number" [(ngModel)]="transferAmount" name="transferAmount" required min="0">
-      <div *ngIf="transferAmountInvalid" class="error">Please enter a valid amount.</div>
-      <button type="submit">Transfer</button>
-    </form>
+    <label>Amount:</label>
+    <input type="number" [(ngModel)]="transferAmount" required>
+    <div *ngIf="transferAmountInvalid" class="error">Amount must be greater than 0</div>
+    <button (click)="transferToCard()">Submit</button>
   </div>
 </div>
 
@@ -38,11 +48,9 @@
   <div class="modal-content">
     <span class="close" (click)="closeWithdrawModal()">&times;</span>
     <h2>Withdraw from Card</h2>
-    <form (ngSubmit)="withdrawFromCard()">
-      <label>Amount:</label>
-      <input type="number" [(ngModel)]="withdrawAmount" name="withdrawAmount" required min="0">
-      <div *ngIf="withdrawAmountInvalid" class="error">Please enter a valid amount.</div>
-      <button type="submit">Withdraw</button>
-    </form>
+    <label>Amount:</label>
+    <input type="number" [(ngModel)]="withdrawAmount" required>
+    <div *ngIf="withdrawAmountInvalid" class="error">Amount must be greater than 0</div>
+    <button (click)="withdrawFromCard()">Submit</button>
   </div>
 </div>
