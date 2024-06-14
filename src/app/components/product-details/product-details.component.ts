@@ -77,9 +77,10 @@ export class ProductDetailsComponent implements OnInit {
 
   addToCart(): void {
     if (this.product) {
-      const { id, name, price, photos } = this.product;
+      const { id, name, price, photos, categoryName, userName } = this.product;
       const photo = photos.length > 0 ? `data:image/jpeg;base64,${photos[0].image}` : '';
-      const productForCart = { id, name, price, photo };
+      const productForCart = { id, name, price, photo, categoryName, userName };
+      console.log(productForCart);
       this.cartService.addToCart(productForCart);
       alert('Product added to cart!');
     }

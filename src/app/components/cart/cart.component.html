@@ -2,21 +2,28 @@
 <table>
   <thead>
     <tr>
+      <th (click)="sortField = 'productId'; toggleSortDirection()">Product ID</th>
       <th>Image</th>
-      <th>Name</th>
-      <th>Price</th>
+      <th (click)="sortField = 'name'; toggleSortDirection()">Name</th>
+      <th (click)="sortField = 'category'; toggleSortDirection()">Category</th>
+      <th (click)="sortField = 'price'; toggleSortDirection()">Price</th>
+      <th (click)="sortField = 'seller'; toggleSortDirection()">Seller</th>
       <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let item of cartItems">
+      <td>{{ item.id }}</td>
       <td><img [src]="item.photo" alt="{{ item.name }}" style="width: 100px; height: auto;"></td>
-      <td>{{ item.name }}</td>
+      <td><a [routerLink]="['/product', item.id]">{{ item.name }}</a></td>
+      <td>{{ item.categoryName }}</td>
       <td>{{ item.price | currency }}</td>
+      <td>{{ item.userName }}</td>
       <td><button (click)="removeFromCart(item.id)">Remove from Cart</button></td>
     </tr>
   </tbody>
 </table>
+
 <p *ngIf="cartItems.length === 0">Your cart is empty.</p>
 <div *ngIf="cartItems.length > 0">
   <p>Total Price: {{ totalPrice | currency }}</p>
