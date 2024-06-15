@@ -20,4 +20,4 @@
 </div>
 <button *ngIf="isCurrentUserAuthor()" (click)="editProduct()">Edit</button>
 <button *ngIf="isCurrentUserAuthor()" (click)="deleteProduct()">Delete</button>
-<button (click)="addToCart()" *ngIf="isCurrentUserAuthor()">Add to Cart</button>
+<button (click)="addToCart()" *ngIf="!isCurrentUserAuthor()">Add to Cart</button>

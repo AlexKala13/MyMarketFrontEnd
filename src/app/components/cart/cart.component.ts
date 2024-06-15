@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../services/cartService/cart.service';
+import { AuthService } from '../../services/authService/auth.service';
+import { PaymentService } from '../../services/paymentService/payment.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -15,7 +18,10 @@ export class CartComponent implements OnInit {
   sortField: string = 'name';
   sortDirection: number = 1;
 
-  constructor(private cartService: CartService) { }
+  isOrderModalOpen: boolean = false;
+  isConfirmationModalOpen: boolean = false;
+
+  constructor(private cartService: CartService, private authService: AuthService, private paymentService: PaymentService, private router: Router) { }
 
   ngOnInit(): void {
     this.loadCart();
@@ -23,7 +29,6 @@ export class CartComponent implements OnInit {
 
   loadCart(): void {
     this.cartItems = this.cartService.getCartItems();
-    console.log(this.cartItems);
     this.calculateTotalPrice();
   }
 
@@ -63,5 +68,47 @@ export class CartComponent implements OnInit {
   toggleSortDirection(): void {
     this.sortDirection = -this.sortDirection;
     this.applyFilters();
+  }
+
+  openOrderModal(): void {
+    this.isOrderModalOpen = true;
+  }
+
+  closeOrderModal(): void {
+    this.isOrderModalOpen = false;
+  }
+
+  confirmOrder(): void {
+    this.isOrderModalOpen = false;
+    this.isConfirmationModalOpen = true;
+    this.placeOrder();
+  }
+
+  closeConfirmationModal(): void {
+    this.isConfirmationModalOpen = false;
+  }
+
+  async placeOrder(): Promise<void> {
+    const buyerId = this.authService.getUserId();
+    const orders = this.cartItems.map(item => ({
+      buyerId,
+      sellerId: item.userId,
+      advertisementId: item.id,
+      categoryId: item.categoryId,
+      price: item.price
+    }));
+
+    await this.paymentService.submitOrder(orders).subscribe(
+      response => {
+        this.clearCart();
+        alert('Order placed successfully!');
+        this.router.navigate(['/products']);
+      },
+      error => {
+        console.error('Error placing order', error);
+        alert('Failed to place the order.');
+      }
+    );
+    this.closeConfirmationModal();
   }
 }

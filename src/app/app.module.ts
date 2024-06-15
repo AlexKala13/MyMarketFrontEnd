@@ -13,6 +13,9 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { AuthService } from './services/authService/auth.service';
 import { UserService } from './services/userService/user.service';
 import { ProductService } from './services/productService/product.service';
+import { CartService } from './services/cartService/cart.service';
+import { DebitCardService } from './services/debitCardService/debitCard.service';
+import { PaymentService } from './services/paymentService/payment.service';
 import { AuthInterceptor } from './auth.interceptor';
 import { ProfileComponent } from './components/profile/profile.component';
 import { AddProductComponent } from './components/add-product/add-product.component';
@@ -57,6 +60,9 @@ export function tokenGetter() {
     AuthService,
     ProductService,
     UserService,
+    DebitCardService,
+    CartService,
+    PaymentService,
     JwtHelperService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],

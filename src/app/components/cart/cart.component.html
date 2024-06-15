@@ -28,4 +28,24 @@
 <div *ngIf="cartItems.length > 0">
   <p>Total Price: {{ totalPrice | currency }}</p>
   <button (click)="clearCart()">Clear Cart</button>
+  <button (click)="openOrderModal()">Order</button>
+</div>
+
+<!-- Order Confirmation Modal -->
+<div *ngIf="isOrderModalOpen" class="modal">
+  <div class="modal-content">
+    <span class="close" (click)="closeOrderModal()">&times;</span>
+    <h2>Confirm your order</h2>
+    <p>Total Price: {{ totalPrice | currency }}</p>
+    <button (click)="confirmOrder()">Confirm Order</button>
+  </div>
+</div>
+
+<!-- Confirmation Modal -->
+<div *ngIf="isConfirmationModalOpen" class="modal">
+  <div class="modal-content">
+    <h2>Order confirmed!</h2>
+    <p>Your order has been placed successfully.</p>
+    <button (click)="closeConfirmationModal()">Close</button>
+  </div>
 </div>
