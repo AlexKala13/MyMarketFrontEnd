@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
-
   constructor(public authService: AuthService, private router: Router) { }
 
   logout() {

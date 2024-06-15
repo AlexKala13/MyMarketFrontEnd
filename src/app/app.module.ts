@@ -23,6 +23,11 @@ import { ProductDetailsComponent } from './components/product-details/product-de
 import { EditProductComponent } from './components/edit-product/edit-product.component';
 import { CreditCardsComponent } from './components/credit-cards/credit-cards.component';
 import { CartComponent } from './components/cart/cart.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { OrdersComponent } from './components/orders/orders.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt_token');
@@ -41,13 +46,18 @@ export function tokenGetter() {
     ProductDetailsComponent,
     EditProductComponent,
     CreditCardsComponent,
-    CartComponent
+    CartComponent,
+    OrdersComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    BrowserAnimationsModule,
+    MatSnackBarModule,
+    MatMenuModule,
+    MatButtonModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

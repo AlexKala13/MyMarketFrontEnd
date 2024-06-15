@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProductService } from '../../services/productService/product.service';
 import { ProductDetails } from '../../models/product-details.model';
 import { AuthService } from '../../services/authService/auth.service';
@@ -14,7 +15,14 @@ export class ProductDetailsComponent implements OnInit {
   product: ProductDetails | null = null;
   loading: boolean = false;
 
-  constructor(private route: ActivatedRoute, private productService: ProductService, private authService: AuthService, private router: Router, private cartService: CartService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private productService: ProductService,
+    private authService: AuthService,
+    private router: Router,
+    private cartService: CartService,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     const productId = this.route.snapshot.paramMap.get('id');
@@ -62,12 +70,12 @@ export class ProductDetailsComponent implements OnInit {
         if (userId !== null) {
           (await this.productService.deleteProduct(this.product.id, userId)).subscribe(
             response => {
-              alert('Product deleted successfully.');
+              this.showNotification('Product deleted successfully.');
               this.router.navigate(['/products']);
             },
             error => {
               console.error('Error deleting product', error);
-              alert('Failed to delete the product.');
+              this.showNotification('Failed to delete the product.');
             }
           );
         }
@@ -82,7 +90,14 @@ export class ProductDetailsComponent implements OnInit {
       const productForCart = { id, name, price, photo, categoryName, userName, userId, categoryId };
       console.log(productForCart);
       this.cartService.addToCart(productForCart);
-      alert('Product added to cart!');
+      this.showNotification('Product added to cart!');
     }
+  }
+
+  showNotification(message: string): void {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
+      verticalPosition: 'top'
+    });
   }
 }

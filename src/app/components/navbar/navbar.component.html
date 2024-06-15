@@ -1,11 +1,17 @@
 <nav>
-    <a routerLink="/">Home</a>
-    <a routerLink="/products">Products</a>
-    <a *ngIf="!authService.loggedIn" routerLink="/login">Login</a>
-    <a *ngIf="!authService.loggedIn" routerLink="/register">Register</a>
-    <a *ngIf="authService.loggedIn" routerLink="/profile">Profile</a>
-    <a *ngIf="authService.loggedIn" routerLink="/cart">Cart</a>
-    <a *ngIf="authService.loggedIn" routerLink="/add-product">Add Product</a>
-    <a *ngIf="authService.loggedIn" (click)="logout()">Logout</a>
-  </nav>
-  
+  <a routerLink="/">Home</a>
+  <a routerLink="/products">Products</a>
+  <a *ngIf="!authService.loggedIn" routerLink="/login">Login</a>
+  <a *ngIf="!authService.loggedIn" routerLink="/register">Register</a>
+  <div class="dropdown" [matMenuTriggerFor]="profileMenu">
+    <a *ngIf="authService.loggedIn">Cabinet</a>
+  </div>
+  <mat-menu #profileMenu="matMenu">
+    <a mat-menu-item routerLink="/profile">My Profile</a>
+    <a mat-menu-item routerLink="/credit-cards">My Credit Cards</a>
+    <a mat-menu-item routerLink="/orders">My Orders</a>
+  </mat-menu>
+  <a *ngIf="authService.loggedIn" routerLink="/cart">Cart</a>
+  <a *ngIf="authService.loggedIn" routerLink="/add-product">Add Product</a>
+  <a *ngIf="authService.loggedIn" (click)="logout()">Logout</a>
+</nav>

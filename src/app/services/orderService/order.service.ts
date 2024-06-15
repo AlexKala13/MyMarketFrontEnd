@@ -6,12 +6,12 @@ import { environment } from '../../environment/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class PaymentService {
+export class OrderService {
   private apiUrl = `${environment.apiUrl}/Orders`;
 
   constructor(private http: HttpClient) { }
 
-  submitOrder(orders: any[]): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/Add`, orders);
+  async getAllOrders(userId: number): Promise<Observable<any>> {
+    return await this.http.get<any>(`${this.apiUrl}/GetAll?userId=${userId}`);
   }
 }

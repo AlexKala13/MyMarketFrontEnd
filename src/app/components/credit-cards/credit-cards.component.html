@@ -10,28 +10,30 @@
 <div>
   <h1>Credit Cards</h1>
   <div *ngIf="cards.length === 0">No cards available</div>
-  <table *ngIf="cards.length > 0">
-    <thead>
-      <tr>
-        <th>Card Name</th>
-        <th>Card Number</th>
-        <th>Balance</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let card of cards">
-        <td>{{ card.cardName }}</td>
-        <td>{{ card.cardNumber }}</td>
-        <td>{{ card.cardAmount }}</td>
-        <td>
-          <button (click)="openTransferModal(card)">Transfer to Card</button>
-          <button (click)="openWithdrawModal(card)">Withdraw from Card</button>
-          <button (click)="deleteCard(card.id)">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-container">
+    <table *ngIf="cards.length > 0" class="table">
+      <thead>
+        <tr>
+          <th>Card Name</th>
+          <th>Card Number</th>
+          <th>Balance</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let card of cards">
+          <td>{{ card.cardName }}</td>
+          <td>{{ card.cardNumber }}</td>
+          <td>{{ card.cardAmount }}</td>
+          <td>
+            <button (click)="openTransferModal(card)">Transfer to Card</button>
+            <button (click)="openWithdrawModal(card)">Withdraw from Card</button>
+            <button (click)="deleteCard(card.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <!-- Transfer Modal -->

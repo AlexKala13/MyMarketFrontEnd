@@ -45,6 +45,6 @@ export class ProductsComponent implements OnInit {
   }
 
   viewProductDetails(id: number) {
-    this.router.navigate(['/product', id]);
+    window.open(`/product/${id}`, '_blank');
   }
 }
