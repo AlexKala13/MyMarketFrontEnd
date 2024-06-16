@@ -88,9 +88,14 @@ export class ProductDetailsComponent implements OnInit {
       const { id, name, price, photos, categoryName, userName, userId, categoryId } = this.product;
       const photo = photos.length > 0 ? `data:image/jpeg;base64,${photos[0].image}` : '';
       const productForCart = { id, name, price, photo, categoryName, userName, userId, categoryId };
-      console.log(productForCart);
-      this.cartService.addToCart(productForCart);
-      this.showNotification('Product added to cart!');
+      const authorizedUser =  this.authService.getUserId();
+      if (authorizedUser !== null) {
+        this.cartService.addToCart(productForCart, authorizedUser);
+        this.showNotification('Product added to cart!');
+      } else {
+        this.showNotification('You should authorize to use a cart.');
+      }
+      
     }
   }
 

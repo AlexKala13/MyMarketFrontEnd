@@ -24,21 +24,24 @@ export class CartComponent implements OnInit {
   constructor(private cartService: CartService, private authService: AuthService, private paymentService: PaymentService, private router: Router) { }
 
   ngOnInit(): void {
-    this.loadCart();
+    const userId = this.authService.getUserId();
+    this.loadCart(userId!);
   }
 
-  loadCart(): void {
-    this.cartItems = this.cartService.getCartItems();
+  loadCart(userId: number): void {
+    this.cartItems = this.cartService.getCartItems(userId);
     this.calculateTotalPrice();
   }
 
   removeFromCart(productId: number): void {
-    this.cartService.removeFromCart(productId);
-    this.loadCart();
+    const userId = this.authService.getUserId();
+    this.cartService.removeFromCart(productId, userId!);
+    this.loadCart(userId!);
   }
 
   clearCart(): void {
-    this.cartService.clearCart();
+    const userId = this.authService.getUserId();
+    this.cartService.clearCart(userId!);
     this.cartItems = [];
     this.calculateTotalPrice();
   }
@@ -48,7 +51,8 @@ export class CartComponent implements OnInit {
   }
 
   applyFilters(): void {
-    this.cartItems = this.cartService.getCartItems()
+    const userId = this.authService.getUserId();
+    this.cartItems = this.cartService.getCartItems(userId!)
       .sort((a, b) => this.compare(a, b));
     this.calculateTotalPrice();
   }

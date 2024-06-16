@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environment/environment';
 
@@ -11,7 +11,20 @@ export class OrderService {
 
   constructor(private http: HttpClient) { }
 
-  async getAllOrders(userId: number): Promise<Observable<any>> {
-    return await this.http.get<any>(`${this.apiUrl}/GetAll?userId=${userId}`);
+  getAllOrders(userId: number, ordersType: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/GetAll?userId=${userId}&ordersType=${ordersType}`);
   }
+
+  confirmOrder(orderId: number): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/ConfirmBySeller?orderId=${orderId}`, {});
+  }
+
+  async confirmOrderWithPayment(orderId: number, debitCardId: number | null): Promise<Observable<any>> {
+    const params = new HttpParams()
+      .set('orderId', orderId.toString())
+      .set('debitCardId', debitCardId !== null ? debitCardId.toString() : '');
+  
+    return this.http.put<any>(`${this.apiUrl}/Confirm`, {}, { params });
+  }
+  
 }

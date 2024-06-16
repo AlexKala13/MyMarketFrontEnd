@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { OrderService } from '../../services/orderService/order.service';
 import { AuthService } from '../../services/authService/auth.service';
 import { Router } from '@angular/router';
+import { DebitCardService } from '../../services/debitCardService/debitCard.service';
 
 @Component({
   selector: 'app-orders',
@@ -17,18 +18,29 @@ export class OrdersComponent implements OnInit {
   categoryFilter: string = '';
   sortField: string = 'orderDate'; // Default sort field
   sortDirection: number = -1; // Default sort direction (descending)
+  isViewingMyOrders: boolean = false;
+  isPaymentModalOpen: boolean = false;
+  selectedOrderId: number | null = null;
+  selectedPaymentMethod: string = 'personalAccount';
+  debitCards: any[] = [];
+  selectedDebitCardId: number | null = null;
 
-  constructor(private orderService: OrderService, private authService: AuthService, private router: Router) { }
+  constructor(
+    private orderService: OrderService,
+    private authService: AuthService,
+    private router: Router,
+    private debitCardService: DebitCardService
+  ) {}
 
   ngOnInit(): void {
     this.userId = this.authService.getUserId();
     if (this.userId !== null) {
-      this.loadOrders();
+      this.loadOrders(0);
     }
   }
 
-  async loadOrders(): Promise<void> {
-    (await this.orderService.getAllOrders(this.userId!)).subscribe(
+  async loadOrders(sellerFlag: number): Promise<void> {
+    (await this.orderService.getAllOrders(this.userId!, sellerFlag)).subscribe(
       response => {
         if (response && response.data && Array.isArray(response.data.$values)) {
           this.orders = response.data.$values;
@@ -44,6 +56,12 @@ export class OrdersComponent implements OnInit {
         this.filteredOrders = [];
       }
     );
+  }
+
+  toggleOrderView(): void {
+    this.isViewingMyOrders = !this.isViewingMyOrders;
+    const sellerFlag = this.isViewingMyOrders ? 1 : 0;
+    this.loadOrders(sellerFlag);
   }
 
   applyFiltersAndSort(): void {
@@ -72,4 +90,106 @@ export class OrdersComponent implements OnInit {
     this.sortDirection = -this.sortDirection;
     this.applyFiltersAndSort();
   }
+
+  async confirmOrder(orderId: number): Promise<void> {
+    try {
+      await this.orderService.confirmOrder(orderId).subscribe(
+        response => {
+          alert('Order confirmed successfully!');
+          // Reload orders to update the list
+          this.loadOrders(1);
+        },
+        error => {
+          console.error('Error confirming order', error);
+          alert('Failed to confirm the order.');
+        }
+      );
+    } catch (error) {
+      console.error('Error confirming order', error);
+      alert('Failed to confirm the order.');
+    }
+  }
+
+  async openPaymentModal(orderId: number): Promise<void> {
+    this.selectedOrderId = orderId;
+    this.isPaymentModalOpen = true;
+
+    if (this.selectedPaymentMethod === 'debitCard') {
+      const userId = this.authService.getUserId();
+      if (userId !== null) {
+        (await this.debitCardService.getAllDebitCards(this.userId!)).subscribe(
+          response => {
+            if (response && response.data && Array.isArray(response.data.$values)) {
+              this.debitCards = response.data.$values;
+            } else {
+              this.debitCards = [];
+            }
+          },
+          error => {
+            console.error('Error loading debit cards', error);
+            this.debitCards = [];
+          }
+        );
+      }
+    }
+  }
+
+  closePaymentModal(): void {
+    this.isPaymentModalOpen = false;
+    this.selectedOrderId = null;
+    this.selectedPaymentMethod = 'personalAccount';
+    this.debitCards = [];
+    this.selectedDebitCardId = null;
+  }
+
+  onPaymentMethodChange(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    if (target.value === 'debitCard') {
+      const userId = this.authService.getUserId();
+      if (userId !== null) {
+        this.debitCardService.getAllDebitCards(userId).then(observable => {
+          observable.subscribe(
+            response => {
+              if (response && Array.isArray(response.data.$values)) {
+                this.debitCards = response.data.$values;
+              } else {
+                this.debitCards = [];
+              }
+            },
+            error => {
+              console.error('Error loading debit cards', error);
+              this.debitCards = [];
+            }
+          );
+        });
+      }
+    } else {
+      this.debitCards = [];
+    }
+  }
+
+  async confirmOrderWithPayment() {
+    try {
+      if (this.selectedOrderId !== null) {
+        await (await this.orderService.confirmOrderWithPayment(this.selectedOrderId, this.selectedDebitCardId)).subscribe(
+          response => {
+            alert('Order confirmed successfully!');
+            // Reload orders to update the list
+            this.loadOrders(0);
+            this.closePaymentModal();
+          },
+          error => {
+            console.error('Error confirming order', error);
+            alert('Failed to confirm the order.');
+          }
+        );
+      } else {
+        console.error('selectedOrderId is null');
+        alert('Selected order is invalid.');
+      }
+    } catch (error) {
+      console.error('Error confirming order', error);
+      alert('Failed to confirm the order.');
+    }
+  }  
 }

@@ -1,4 +1,6 @@
 <div class="table-container">
+  <h1>Orders</h1>
+  <button (click)="toggleOrderView()">{{ isViewingMyOrders ? 'My orders' : 'Orders for my advertisements' }}</button>
   <table class="table">
     <thead>
       <tr>
@@ -9,6 +11,7 @@
         <th (click)="sortField = 'categoryName'; toggleSortDirection()">Category</th>
         <th (click)="sortField = 'price'; toggleSortDirection()">Price</th>
         <th (click)="sortField = 'orderDate'; toggleSortDirection()">Order Date</th>
+        <th>Actions</th>
       </tr>
       <tr>
         <th><input type="text" [(ngModel)]="productIdFilter" placeholder="Filter"></th>
@@ -20,7 +23,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let order of filteredOrders">
+      <tr *ngFor="let order of filteredOrders" [ngClass]="'status-' + order.status">
         <td>{{ order.id }}</td>
         <td><a [routerLink]="['/product', order.advertisementId]" target="_blank">{{ order.advertisementId }}</a></td>
         <td>{{ order.buyerName }}</td>
@@ -28,7 +31,32 @@
         <td>{{ order.categoryName }}</td>
         <td>{{ order.price }}</td>
         <td>{{ order.orderDate | date }}</td>
+        <td>
+          <button *ngIf="isViewingMyOrders && order.status === 1" (click)="confirmOrder(order.id)">Confirm</button>
+          <button *ngIf="!isViewingMyOrders && order.status === 2" (click)="openPaymentModal(order.id)">Confirm</button>
+        </td>
       </tr>
     </tbody>
   </table>
+
+ <!-- Payment Confirmation Modal -->
+ <div *ngIf="isPaymentModalOpen" class="modal">
+  <div class="modal-content">
+    <span class="close" (click)="closePaymentModal()">&times;</span>
+    <h2>Confirm your payment</h2>
+    <p>Select payment method:</p>
+    <select [(ngModel)]="selectedPaymentMethod" (change)="onPaymentMethodChange($event)">
+      <option value="personalAccount">Personal Account</option>
+      <option value="debitCard">Debit Card</option>
+    </select>
+    <div *ngIf="selectedPaymentMethod === 'debitCard'">
+      <p>Select a debit card:</p>
+      <select [(ngModel)]="selectedDebitCardId">
+        <option *ngFor="let card of debitCards" [value]="card.id">
+          {{ card.cardName }} - **** **** **** {{ card.cardNumber.slice(-4) }}
+        </option>
+      </select>      
+    </div>
+    <button (click)="confirmOrderWithPayment()">Confirm Payment</button>
+  </div>
 </div>

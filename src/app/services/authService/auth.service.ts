@@ -23,6 +23,7 @@ export class AuthService {
         localStorage.setItem('user_id', payload.nameid);
         localStorage.setItem('username', payload.unique_name);
         localStorage.setItem('email', payload.email);
+        localStorage.setItem('isAdmin', payload.role);
         
         return true;
       }

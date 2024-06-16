@@ -4,32 +4,39 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class CartService {
-  private cartKey = 'shopping_cart';
+  private cartKeyPrefix = 'shopping_cart_';
 
   constructor() { }
 
-  addToCart(product: any): void {
-    let cartItems = this.getCartItems();
-    cartItems.push(product);
-    this.saveCartItems(cartItems);
+  private getUserCartKey(userId: number): string {
+    return this.cartKeyPrefix + userId;
   }
 
-  getCartItems(): any[] {
-    const cart = localStorage.getItem(this.cartKey);
+  addToCart(product: any, userId: number): void {
+    let cartItems = this.getCartItems(userId);
+    cartItems.push(product);
+    this.saveCartItems(cartItems, userId);
+  }
+
+  getCartItems(userId: number): any[] {
+    const cartKey = this.getUserCartKey(userId);
+    const cart = localStorage.getItem(cartKey);
     return cart ? JSON.parse(cart) : [];
   }
 
-  saveCartItems(items: any[]): void {
-    localStorage.setItem(this.cartKey, JSON.stringify(items));
+  saveCartItems(items: any[], userId: number): void {
+    const cartKey = this.getUserCartKey(userId);
+    localStorage.setItem(cartKey, JSON.stringify(items));
   }
 
-  removeFromCart(productId: number): void {
-    let cartItems = this.getCartItems();
+  removeFromCart(productId: number, userId: number): void {
+    let cartItems = this.getCartItems(userId);
     cartItems = cartItems.filter(item => item.id !== productId);
-    this.saveCartItems(cartItems);
+    this.saveCartItems(cartItems, userId);
   }
 
-  clearCart(): void {
-    localStorage.removeItem(this.cartKey);
+  clearCart(userId: number): void {
+    const cartKey = this.getUserCartKey(userId);
+    localStorage.removeItem(cartKey);
   }
 }
