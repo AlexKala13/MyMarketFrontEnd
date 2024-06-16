@@ -1,23 +1,28 @@
-<div *ngIf="loading">Loading...</div>
-<div *ngIf="!loading && product">
-  <h1>{{ product.name }}</h1>
-  <p>{{ product.description }}</p>
-  <p>Category: {{ product.categoryName }}</p>
-  <p>Price: {{ product.price | currency }}</p>
-  <p>Posted on: {{ product.postDate | date }}</p>
-  <p>Due date: {{ product.dueDate | date }}</p>
-  <p>Status: {{ product.status }}</p>
-  <p>User: {{ product.userName }}</p>
-  <div *ngIf="product.photos && product.photos.length">
-    <div *ngFor="let photo of product.photos">
-      <img *ngIf="photo.image" [src]="'data:image/jpeg;base64,' + photo.image" alt="{{ product.name }}" />
+<div class="product-details-container">
+  <div class="product-photos">
+    <img *ngIf="product?.photos && product!.photos.length > 0" class="main-photo" [src]="'data:image/jpeg;base64,' + product!.photos[0].image" alt="{{ product?.name }}" (click)="showMainPhoto(product!.photos[0].image)">
+    <div class="small-photos">
+      <div *ngFor="let photo of product?.photos; let i = index">
+        <img *ngIf="photo.image" [src]="'data:image/jpeg;base64,' + photo.image" alt="{{ product?.name }}" (click)="swapMainPhoto(i)">
+      </div>
     </div>
   </div>
-  <p *ngIf="!product.photos.length">No photos</p>
+  <div class="product-info">
+    <div *ngIf="!loading && product">
+      <h1>{{ product.name }}</h1>
+      <p>{{ product.description }}</p>
+      <p>Category: {{ product.categoryName }}</p>
+      <p>Price: {{ product.price | currency }}</p>
+      <p>Posted on: {{ product.postDate | date }}</p>
+      <p>Due date: {{ product.dueDate | date }}</p>
+      <p>Status: {{ product.status }}</p>
+      <p>User: {{ product.userName }}</p>
+    </div>
+    <div *ngIf="!loading && !product">
+      <p>Product not found</p>
+    </div>
+    <button *ngIf="isCurrentUserAuthor()" (click)="editProduct()">Edit</button>
+    <button *ngIf="isCurrentUserAuthor()" (click)="deleteProduct()">Delete</button>
+    <button (click)="addToCart()" *ngIf="!isCurrentUserAuthor()">Add to Cart</button>
+  </div>
 </div>
-<div *ngIf="!loading && !product">
-  <p>Product not found</p>
-</div>
-<button *ngIf="isCurrentUserAuthor()" (click)="editProduct()">Edit</button>
-<button *ngIf="isCurrentUserAuthor()" (click)="deleteProduct()">Delete</button>
-<button (click)="addToCart()" *ngIf="!isCurrentUserAuthor()">Add to Cart</button>

@@ -1,0 +1,187 @@
+.filterblock {
+  width: 90%;
+  max-width: 900px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  /* Центрирование по горизонтали */
+  margin: 0 auto;
+}
+
+.input-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.input-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-right: 10px;
+}
+
+.input-group label {
+  margin-bottom: 5px;
+}
+
+.input-group input[type="text"],
+.input-group input[type="date"],
+.input-group input[type="number"],
+.input-group select {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input-group input[type="text"]:focus,
+.input-group input[type="date"]:focus,
+.input-group input[type="number"]:focus,
+.input-group select:focus {
+  border-color: #007bff;
+}
+
+.button-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.apply-button,
+.clear-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s ease;
+  margin-left: 10px;
+}
+
+.apply-button:hover,
+.clear-button:hover {
+  background-color: #0056b3;
+}
+
+.layout-and-sort {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  max-width: 900px;
+  margin-top: 20px;
+
+  /* Центрирование по горизонтали */
+  margin: 0 auto;
+}
+
+.layout-buttons button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s ease;
+  margin-left: 10px;
+}
+
+.layout-buttons button:hover {
+  background-color: #0056b3;
+}
+
+.sort-by {
+  display: flex;
+  align-items: center;
+}
+
+.sort-by label {
+  margin-right: 10px;
+}
+
+.products-container {
+  width: 80%;
+  margin: 20px auto; /* Отступы по 10% слева и справа */
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+li {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-sizing: border-box;
+  width: 100%; /* Ensure full width within container */
+  max-width: 80%; /* Limit to 80% of the container width */
+  margin: 0 auto; /* Center the card */
+}
+
+li:hover {
+  background-color: #f0f0f0;
+}
+
+.layout-4 li {
+  flex: 1 1 calc(25% - 20px);
+}
+
+.layout-2 li {
+  flex: 1 1 calc(50% - 20px);
+}
+
+.layout-1 li {
+  flex: 1 1 80%;
+}
+
+.product-card {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.product-card img {
+  max-width: 25%;
+  border-radius: 5px;
+  margin-right: 20px;
+}
+
+.product-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+img {
+  max-width: 100%;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+h3 {
+  margin: 10px 0;
+}
+
+p {
+  margin: 5px 0;
+}

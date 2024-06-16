@@ -1,25 +1,70 @@
 <div>
   <h1>Products</h1>
-  <div>
-    <input type="text" [(ngModel)]="filter.name" placeholder="Search by name" />
-    <select [(ngModel)]="filter.category">
-      <option value="">All Categories</option>
-      <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
-    </select>
-    <input type="date" [(ngModel)]="filter.date" />
-    <input type="number" [(ngModel)]="filter.minPrice" placeholder="Min price" />
-    <input type="number" [(ngModel)]="filter.maxPrice" placeholder="Max price" />
-    <button (click)="applyFilters()">Apply Filters</button>
+  <div class="filterblock">
+    <div class="input-row">
+      <div class="input-group">
+        <label for="searchName">Name</label>
+        <input id="searchName" type="text" [(ngModel)]="filter.name" placeholder="Search by name" />
+      </div>
+      <div class="input-group">
+        <label for="searchCategory">Category</label>
+        <select id="searchCategory" [(ngModel)]="filter.category">
+          <option value="">All Categories</option>
+          <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+        </select>
+      </div>
+    </div>
+    <div class="input-row">
+      <div class="input-group">
+        <label for="searchDate">Date</label>
+        <input id="searchDate" type="date" [(ngModel)]="filter.date" />
+      </div>
+      <div class="input-group">
+        <label for="minPrice">Min Price</label>
+        <input id="minPrice" type="number" [(ngModel)]="filter.minPrice" placeholder="Min price" />
+      </div>
+      <div class="input-group">
+        <label for="maxPrice">Max Price</label>
+        <input id="maxPrice" type="number" [(ngModel)]="filter.maxPrice" placeholder="Max price" />
+      </div>
+    </div>
+    <div class="button-row">
+      <button class="apply-button" (click)="applyFilters()">Apply Filters</button>
+      <button class="clear-button" (click)="clearFilters()">Clear Filters</button>
+    </div>
   </div>
-  <div *ngIf="loading">Loading...</div>
-  <div *ngIf="!loading && products.length === 0">No products found</div>
-  <ul *ngIf="!loading && products.length > 0">
-    <li *ngFor="let product of products" (click)="viewProductDetails(product.id)">
-      <img *ngIf="product.photo && product.photo.image" [src]="'data:image/jpeg;base64,' + product.photo.image" alt="{{ product.name }}" />
-      <h3>{{ product.name }}</h3>
-      <p>Category: {{ product.categoryName }}</p>
-      <p>Price: {{ product.price | currency }}</p>
-      <p>Posted on: {{ product.postDate | date }}</p>
-    </li>
-  </ul>
+  <div class="layout-and-sort">
+    <div class="layout-buttons">
+      <button (click)="setLayout(4)">4 per row</button>
+      <button (click)="setLayout(2)">2 per row</button>
+      <button (click)="setLayout(1)">1 per row</button>
+    </div>
+    <div class="sort-by">
+      <label for="sortBy">Sort by:</label>
+      <select id="sortBy" [(ngModel)]="filter.sortBy" (change)="sortProducts()">
+        <option value="">Select</option>
+        <option value="date">Date</option>
+        <option value="price">Price</option>
+        <option value="name">Name</option>
+      </select>
+    </div>
+  </div>
+  <div class="products-container">
+    <div *ngIf="loading">Loading...</div>
+    <div *ngIf="!loading && products.length === 0">No products found</div>
+    <ul *ngIf="!loading && products.length > 0" [ngClass]="'layout-' + layout">
+      <li *ngFor="let product of products" (click)="viewProductDetails(product.id)">
+        <div class="product-card">
+          <img *ngIf="product.photo && product.photo.image" [src]="'data:image/jpeg;base64,' + product.photo.image" alt="{{ product.name }}" />
+          <div class="product-info">
+            <h3>{{ product.name }}</h3>
+            <p>Category: {{ product.categoryName }}</p>
+            <p>Price: {{ product.price | currency }}</p>
+            <p>Seller: {{ product.userName}}</p>
+            <p>Posted on: {{ product.postDate | date }}</p>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
 </div>

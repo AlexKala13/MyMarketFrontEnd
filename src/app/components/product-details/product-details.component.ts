@@ -105,4 +105,23 @@ export class ProductDetailsComponent implements OnInit {
       verticalPosition: 'top'
     });
   }
+
+  showMainPhoto(image: string | undefined): void {
+    if (image) {
+      this.product!.photos.unshift({
+        image,
+        id: 0,
+        advertisementId: 0,
+        isMain: false
+      }); // Перемещаем выбранное фото в начало массива
+    }
+  }
+
+  swapMainPhoto(index: number): void {
+    if (index !== 0 && this.product && this.product.photos.length > index) {
+      const mainPhoto = this.product.photos[0];
+      this.product.photos[0] = this.product.photos[index];
+      this.product.photos[index] = mainPhoto;
+    }
+  }
 }

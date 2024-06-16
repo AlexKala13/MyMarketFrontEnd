@@ -8,9 +8,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
+  profileMenu: any;
+
   constructor(public authService: AuthService, private router: Router) { }
 
   logout() {
     this.authService.logout();
+  }
+
+  isActive(url: string): boolean {
+    return this.router.isActive(url, true);
   }
 }

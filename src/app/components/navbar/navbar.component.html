@@ -1,17 +1,38 @@
 <nav>
-  <a routerLink="/">Home</a>
-  <a routerLink="/products">Products</a>
-  <a *ngIf="!authService.loggedIn" routerLink="/login">Login</a>
-  <a *ngIf="!authService.loggedIn" routerLink="/register">Register</a>
-  <div class="dropdown" [matMenuTriggerFor]="profileMenu">
-    <a *ngIf="authService.loggedIn">Cabinet</a>
+  <div class="logo">
+    <img src="path_to_your_logo.png" alt="logo">
   </div>
-  <mat-menu #profileMenu="matMenu">
-    <a mat-menu-item routerLink="/profile">My Profile</a>
-    <a mat-menu-item routerLink="/credit-cards">My Credit Cards</a>
-    <a mat-menu-item routerLink="/orders">My Orders</a>
-  </mat-menu>
-  <a *ngIf="authService.loggedIn" routerLink="/cart">Cart</a>
-  <a *ngIf="authService.loggedIn" routerLink="/add-product">Add Product</a>
-  <a *ngIf="authService.loggedIn" (click)="logout()">Logout</a>
+  <div class="nav-links">
+    <a [routerLink]="['/']" [class.active-link]="isActive('/')">
+      <i class="fas fa-home"></i> Home
+    </a>
+    <a [routerLink]="['/products']" [class.active-link]="isActive('/products')">
+      <i class="fas fa-box"></i> Products
+    </a>
+    <a *ngIf="!authService.loggedIn" [routerLink]="['/login']" [class.active-link]="isActive('/login')">
+      <i class="fas fa-sign-in-alt"></i> Login
+    </a>
+    <a *ngIf="!authService.loggedIn" [routerLink]="['/register']" [class.active-link]="isActive('/register')">
+      <i class="fas fa-user-plus"></i> Register
+    </a>
+    <div class="dropdown">
+      <a *ngIf="authService.loggedIn" [class.active-link]="isActive('/profile') || isActive('/credit-cards') || isActive('/orders')">
+        <i class="fas fa-user-circle"></i> Cabinet
+      </a>
+      <div class="dropdown-content" [matMenuTriggerFor]="profileMenu">
+        <a mat-menu-item [routerLink]="['/profile']" [class.active-link]="isActive('/profile')">My Profile</a>
+        <a mat-menu-item [routerLink]="['/credit-cards']" [class.active-link]="isActive('/credit-cards')">My Credit Cards</a>
+        <a mat-menu-item [routerLink]="['/orders']" [class.active-link]="isActive('/orders')">My Orders</a>
+      </div>
+    </div>
+    <a *ngIf="authService.loggedIn" [routerLink]="['/cart']" [class.active-link]="isActive('/cart')">
+      <i class="fas fa-shopping-cart"></i> Cart
+    </a>
+    <a *ngIf="authService.loggedIn" [routerLink]="['/add-product']" [class.active-link]="isActive('/add-product')">
+      <i class="fas fa-plus-circle"></i> Add Product
+    </a>
+    <a *ngIf="authService.loggedIn" (click)="logout()">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+  </div>
 </nav>

@@ -2,3 +2,52 @@
     background-color: #323232;
     color: #fff;
   }
+  
+  .product-details-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 80%; /* Регулируем ширину контейнера, 10% отступы слева и справа */
+    margin: 0 auto; /* Центрируем контейнер по горизонтали */
+  }
+  
+  .product-photos {
+    flex: 1; /* Окно для фото занимает всё доступное пространство */
+    text-align: center; /* Центрируем содержимое */
+  }
+  
+  .product-info {
+    flex: 1; /* Окно для информации о продукте */
+    padding-left: 20px; /* Добавляем немного отступа с левой стороны для визуального разделения */
+  }
+
+  .product-photos img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px; /* Отступ между фотографиями в слайдере */
+    cursor: pointer; /* Указатель при наведении для интерактивности */
+  }
+  
+  .small-photos {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .small-photos img {
+    width: 50px; /* Размер маленьких фото */
+    height: 50px;
+    margin: 0 5px; /* Отступы между маленькими фото */
+  }
+  
+  .product-info h1 {
+    font-size: 24px;
+  }
+  
+  .product-info p {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .main-photo {
+    width: 500px;
+  }
+  
