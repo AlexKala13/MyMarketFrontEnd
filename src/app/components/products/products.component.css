@@ -5,8 +5,6 @@
   background-color: #f8f9fa;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-  /* Центрирование по горизонтали */
   margin: 0 auto;
 }
 
@@ -81,8 +79,6 @@
   width: 90%;
   max-width: 900px;
   margin-top: 20px;
-
-  /* Центрирование по горизонтали */
   margin: 0 auto;
 }
 
@@ -113,7 +109,7 @@
 
 .products-container {
   width: 80%;
-  margin: 20px auto; /* Отступы по 10% слева и справа */
+  margin: 20px auto;
 }
 
 ul {
@@ -133,17 +129,13 @@ li {
   cursor: pointer;
   transition: background-color 0.3s ease;
   box-sizing: border-box;
-  width: 100%; /* Ensure full width within container */
-  max-width: 80%; /* Limit to 80% of the container width */
-  margin: 0 auto; /* Center the card */
+  width: 100%;
+  max-width: 80%;
+  margin: 0 auto;
 }
 
 li:hover {
   background-color: #f0f0f0;
-}
-
-.layout-4 li {
-  flex: 1 1 calc(25% - 20px);
 }
 
 .layout-2 li {
@@ -158,10 +150,13 @@ li:hover {
   display: flex;
   align-items: center;
   width: 100%;
+  height: 300px;
 }
 
 .product-card img {
-  max-width: 25%;
+  width: 450px; 
+  height: 250px;
+  object-fit: cover;
   border-radius: 5px;
   margin-right: 20px;
 }
@@ -170,18 +165,52 @@ li:hover {
   flex: 1;
   display: flex;
   flex-direction: column;
-}
-
-img {
-  max-width: 100%;
-  border-radius: 5px;
-  margin-bottom: 10px;
+  position: relative; /* Добавляем позиционирование для кнопок */
 }
 
 h3 {
   margin: 10px 0;
+  color: #333a56;
+  font-weight: bold; /* Жирный текст для заголовка */
 }
 
-p {
+.product-info p {
   margin: 5px 0;
+  color: #333a56;
+}
+
+.price {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5rem; /* Увеличенный размер шрифта */
+  font-weight: bold; /* Жирный текст для цены */
+}
+
+.cart-button {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 100px;
+  height: 40px;
+  border-radius: 25px;
+  border: 2px solid#b8e994; /* Бордер для кнопки */
+  color: white;
+  background-color: #b8e994;
+  
+  outline: none;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.cart-button:hover {
+  background-color: transparent;
+  color: #b8e994;
+}
+
+.cart-button img {
+  max-width: 60%;
+  max-height: 60%;
+  display: block;
+  margin: auto;
 }

@@ -1,9 +1,14 @@
 <div class="product-details-container">
-  <div class="product-photos">
-    <img *ngIf="product?.photos && product!.photos.length > 0" class="main-photo" [src]="'data:image/jpeg;base64,' + product!.photos[0].image" alt="{{ product?.name }}" (click)="showMainPhoto(product!.photos[0].image)">
+  <div class="product-photo-container">
+    <img 
+      [src]="getMainPhoto()" 
+      alt="{{ product?.name || 'Default Photo' }}"
+    >
+  </div>
+  <div class="small-photos-container" *ngIf="product?.photos && product!.photos.length > 1">
     <div class="small-photos">
-      <div *ngFor="let photo of product?.photos; let i = index">
-        <img *ngIf="photo.image" [src]="'data:image/jpeg;base64,' + photo.image" alt="{{ product?.name }}" (click)="swapMainPhoto(i)">
+      <div *ngFor="let photo of product!.photos.slice(1); let i = index">
+        <img *ngIf="photo.image" [src]="'data:image/jpeg;base64,' + photo.image" alt="{{ product?.name }}" (click)="swapMainPhoto(i + 1)">
       </div>
     </div>
   </div>

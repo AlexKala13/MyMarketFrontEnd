@@ -14,8 +14,18 @@ export class CartService {
 
   addToCart(product: any, userId: number): void {
     let cartItems = this.getCartItems(userId);
-    cartItems.push(product);
-    this.saveCartItems(cartItems, userId);
+
+    // Check if the product is already in the cart
+    const existingProduct = cartItems.find(item => item.id === product.id);
+
+    if (!existingProduct) {
+      // Product is not in the cart, add it
+      cartItems.push(product);
+      this.saveCartItems(cartItems, userId);
+    } else {
+      // Product is already in the cart, you may want to handle this case (optional)
+      console.log('Product is already in the cart');
+    }
   }
 
   getCartItems(userId: number): any[] {

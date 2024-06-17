@@ -13,7 +13,13 @@
       <i class="fas fa-sign-in-alt"></i> Login
     </a>
     <a *ngIf="!authService.loggedIn" [routerLink]="['/register']" [class.active-link]="isActive('/register')">
-      <i class="fas fa-user-plus"></i> Register
+      <i class="fas fa-user-plus"></i> Sign Up
+    </a>
+    <a *ngIf="authService.loggedIn" [routerLink]="['/cart']" [class.active-link]="isActive('/cart')">
+      <i class="fas fa-shopping-cart"></i> Cart
+    </a>
+    <a *ngIf="authService.loggedIn" [routerLink]="['/add-product']" [class.active-link]="isActive('/add-product')">
+      <i class="fas fa-plus-circle"></i> Add Product
     </a>
     <div class="dropdown">
       <a *ngIf="authService.loggedIn" [class.active-link]="isActive('/profile') || isActive('/credit-cards') || isActive('/orders')">
@@ -23,16 +29,8 @@
         <a mat-menu-item [routerLink]="['/profile']" [class.active-link]="isActive('/profile')">My Profile</a>
         <a mat-menu-item [routerLink]="['/credit-cards']" [class.active-link]="isActive('/credit-cards')">My Credit Cards</a>
         <a mat-menu-item [routerLink]="['/orders']" [class.active-link]="isActive('/orders')">My Orders</a>
+        <a mat-menu-item  *ngIf="authService.loggedIn" (click)="logout()">Logout</a>
       </div>
     </div>
-    <a *ngIf="authService.loggedIn" [routerLink]="['/cart']" [class.active-link]="isActive('/cart')">
-      <i class="fas fa-shopping-cart"></i> Cart
-    </a>
-    <a *ngIf="authService.loggedIn" [routerLink]="['/add-product']" [class.active-link]="isActive('/add-product')">
-      <i class="fas fa-plus-circle"></i> Add Product
-    </a>
-    <a *ngIf="authService.loggedIn" (click)="logout()">
-      <i class="fas fa-sign-out-alt"></i> Logout
-    </a>
   </div>
 </nav>

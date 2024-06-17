@@ -1,5 +1,4 @@
 <div>
-  <h1>Products</h1>
   <div class="filterblock">
     <div class="input-row">
       <div class="input-group">
@@ -35,7 +34,6 @@
   </div>
   <div class="layout-and-sort">
     <div class="layout-buttons">
-      <button (click)="setLayout(4)">4 per row</button>
       <button (click)="setLayout(2)">2 per row</button>
       <button (click)="setLayout(1)">1 per row</button>
     </div>
@@ -53,15 +51,23 @@
     <div *ngIf="loading">Loading...</div>
     <div *ngIf="!loading && products.length === 0">No products found</div>
     <ul *ngIf="!loading && products.length > 0" [ngClass]="'layout-' + layout">
-      <li *ngFor="let product of products" (click)="viewProductDetails(product.id)">
+      <li *ngFor="let product of products">
         <div class="product-card">
           <img *ngIf="product.photo && product.photo.image" [src]="'data:image/jpeg;base64,' + product.photo.image" alt="{{ product.name }}" />
           <div class="product-info">
             <h3>{{ product.name }}</h3>
             <p>Category: {{ product.categoryName }}</p>
-            <p>Price: {{ product.price | currency }}</p>
+            <p>Price: {{ getDisplayPrice(product.price) }}</p>
             <p>Seller: {{ product.userName}}</p>
             <p>Posted on: {{ product.postDate | date }}</p>
+            <button (click)="toggleCart(product)" class="cart-button">
+              <ng-container *ngIf="isProductInCart(product.id); else addToCartTemplate">
+                Remove from Cart
+              </ng-container>
+              <ng-template #addToCartTemplate>
+                Add to Cart
+              </ng-template>
+            </button>
           </div>
         </div>
       </li>

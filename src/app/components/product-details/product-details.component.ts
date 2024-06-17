@@ -113,7 +113,7 @@ export class ProductDetailsComponent implements OnInit {
         id: 0,
         advertisementId: 0,
         isMain: false
-      }); // Перемещаем выбранное фото в начало массива
+      });
     }
   }
 
@@ -122,6 +122,15 @@ export class ProductDetailsComponent implements OnInit {
       const mainPhoto = this.product.photos[0];
       this.product.photos[0] = this.product.photos[index];
       this.product.photos[index] = mainPhoto;
+    }
+  }
+
+  getMainPhoto(): string {
+    if (this.product?.photos && this.product.photos.length > 0) {
+      return 'data:image/jpeg;base64,' + this.product.photos[0].image;
+    } else {
+      console.log("default is working");
+      return 'assets/images/default-photo.jpg';
     }
   }
 }
