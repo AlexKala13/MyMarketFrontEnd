@@ -16,7 +16,7 @@
     <div class="row px-xl-5">
         <div class="col-lg-5 pb-5">
             <div class="main-photo-container mb-3">
-                <img class="w-100 h-100" [src]="mainPhotoSrc" alt="{{ product!.name }}" (click)="openFullScreen()">
+                <img class="w-100 h-100" [src]="mainPhotoSrc" alt="{{ product!.name }}" (click)="openModal()">
             </div>
             <div class="thumbnail-container">
                 <div class="row">
@@ -69,3 +69,11 @@
     </div>
 </div>
 <!-- Shop Detail End -->
+
+<!-- Modal Window -->
+<div *ngIf="isModalOpen" class="modal">
+    <div class="modal-content">
+        <span class="close" (click)="closeModal()">&times;</span>
+        <img [src]="mainPhotoSrc" alt="{{ product!.name }}" class="modal-img">
+    </div>
+</div>

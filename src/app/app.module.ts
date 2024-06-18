@@ -28,6 +28,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OrdersComponent } from './components/orders/orders.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt_token');
@@ -47,7 +48,8 @@ export function tokenGetter() {
     EditProductComponent,
     CreditCardsComponent,
     CartComponent,
-    OrdersComponent
+    OrdersComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

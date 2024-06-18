@@ -16,6 +16,7 @@ export class ProductDetailsComponent implements OnInit {
   loading: boolean = false;
   mainPhotoSrc: string = '';
   selectedThumbnailIndex: number = 0;
+  isModalOpen: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -144,5 +145,13 @@ export class ProductDetailsComponent implements OnInit {
       console.log("default is working");
       return 'assets/images/default-photo.jpg';
     }
+  }
+
+  openModal(): void {
+    this.isModalOpen = true;
+  }
+
+  closeModal(): void {
+    this.isModalOpen = false;
   }
 }
