@@ -1,0 +1,80 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    padding-bottom: 70px;
+  }
+  
+  .form {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .form-column {
+    flex: 1;
+  }
+  
+  .form-group {
+    margin: 1rem;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .form-column .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-group.file-drop-area {
+    display: flex;
+    align-items: center;
+  }
+  
+  .file-label {
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border: 1px dashed #ccc;
+    border-radius: 4px;
+  }
+  
+  .file-label:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .button-container {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+  }
+  
+  .button-container button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #D19C97;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.3s all;
+    max-height: 50px;
+  }
+  
+  .button-container button:hover {
+    background-color: #8b6b68;
+  }
+  
+  .error-message {
+    color: #dc3545;
+    margin-top: 1rem;
+  }  

@@ -101,7 +101,7 @@
                           <a mat-menu-item *ngIf="authService.loggedIn" (click)="logout()">Logout</a>
                         </div>
                       </div>
-                        <a *ngIf="!authService.loggedIn" [routerLink]="['/login']" [ngClass]="{'active': isActive('/login')}" class="nav-item nav-link"><i class="fas fa-sign-in-alt"></i> Login</a>
+                        <a *ngIf="!authService.loggedIn" [routerLink]="['/login']" [ngClass]="{'active': isActive('/login')}" class="nav-item nav-link"><i class="fas fa-sign-in-alt"></i> Log in</a>
                         <a *ngIf="!authService.loggedIn" [routerLink]="['/register']" [ngClass]="{'active': isActive('/register')}" class="nav-item nav-link"><i class="fas fa-user-plus"></i> Sign Up</a>
                     </div>
                 </div>

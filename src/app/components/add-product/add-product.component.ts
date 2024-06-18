@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/authService/auth.service';
 import { ProductService } from '../../services/productService/product.service';
 import { Router } from '@angular/router';
+import { environment } from '../../environment/environment';
 
 @Component({
   selector: 'app-add-product',
@@ -22,6 +23,7 @@ export class AddProductComponent implements OnInit {
   };
   selectedFiles: FileList | undefined;
   errorMessage: string | null = null;
+  categories = environment.categories;
 
   constructor(private authService: AuthService, private productService: ProductService, private router: Router) {}
 
@@ -37,7 +39,13 @@ export class AddProductComponent implements OnInit {
   }
 
   onFileChange(event: any) {
-    this.selectedFiles = event.target.files;
+    const files = event.target.files;
+    if (files.length + (this.product.photos?.length || 0) > 7) {
+      alert('You can upload 7 photos max.');
+      event.target.value = null;
+      return;
+    }
+    this.selectedFiles = files;
   }
 
   async uploadFiles() {
@@ -65,10 +73,20 @@ export class AddProductComponent implements OnInit {
     return base64.replace(/^data:image\/(png|jpeg);base64,/, '');
   }
 
+  onNegotiablePriceChange(event: any) {
+    if (event.target.checked) {
+      this.product.price = 0;
+    }
+  }
+
   async addProduct() {
     if (!this.authService.isAuthenticated()) {
       this.router.navigate(['/login']);
       return;
+    }
+
+    if (this.product.negotiablePrice) {
+      this.product.price = 0;
     }
 
     await this.uploadFiles();
