@@ -1,36 +1,112 @@
-<nav>
-  <div class="logo">
-    <img src="path_to_your_logo.png" alt="logo">
-  </div>
-  <div class="nav-links">
-    <a [routerLink]="['/']" [class.active-link]="isActive('/')">
-      <i class="fas fa-home"></i> Home
-    </a>
-    <a [routerLink]="['/products']" [class.active-link]="isActive('/products')">
-      <i class="fas fa-box"></i> Products
-    </a>
-    <a *ngIf="!authService.loggedIn" [routerLink]="['/login']" [class.active-link]="isActive('/login')">
-      <i class="fas fa-sign-in-alt"></i> Login
-    </a>
-    <a *ngIf="!authService.loggedIn" [routerLink]="['/register']" [class.active-link]="isActive('/register')">
-      <i class="fas fa-user-plus"></i> Sign Up
-    </a>
-    <a *ngIf="authService.loggedIn" [routerLink]="['/cart']" [class.active-link]="isActive('/cart')">
-      <i class="fas fa-shopping-cart"></i> Cart
-    </a>
-    <a *ngIf="authService.loggedIn" [routerLink]="['/add-product']" [class.active-link]="isActive('/add-product')">
-      <i class="fas fa-plus-circle"></i> Add Product
-    </a>
-    <div class="dropdown">
-      <a *ngIf="authService.loggedIn" [class.active-link]="isActive('/profile') || isActive('/credit-cards') || isActive('/orders')">
-        <i class="fas fa-user-circle"></i> Cabinet
-      </a>
-      <div class="dropdown-content" [matMenuTriggerFor]="profileMenu">
-        <a mat-menu-item [routerLink]="['/profile']" [class.active-link]="isActive('/profile')">My Profile</a>
-        <a mat-menu-item [routerLink]="['/credit-cards']" [class.active-link]="isActive('/credit-cards')">My Credit Cards</a>
-        <a mat-menu-item [routerLink]="['/orders']" [class.active-link]="isActive('/orders')">My Orders</a>
-        <a mat-menu-item  *ngIf="authService.loggedIn" (click)="logout()">Logout</a>
-      </div>
+<!-- Topbar Start -->
+<div class="container-fluid">
+    <div class="row bg-secondary py-2 px-xl-5">
+        <div class="col-lg-6 d-none d-lg-block">
+            <div class="d-inline-flex align-items-center">
+                <a class="text-dark" href="">FAQs</a>
+                <span class="text-muted px-2">|</span>
+                <a class="text-dark" href="">Help</a>
+                <span class="text-muted px-2">|</span>
+                <a class="text-dark" href="">Support</a>
+            </div>
+        </div>
+        <div class="col-lg-6 text-center text-lg-right">
+            <div class="d-inline-flex align-items-center">
+                <a class="text-dark px-2" href="">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a class="text-dark px-2" href="">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a class="text-dark px-2" href="">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a class="text-dark px-2" href="">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a class="text-dark pl-2" href="">
+                    <i class="fab fa-youtube"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row align-items-center py-3 px-xl-5">
+        <div class="col-lg-3 d-none d-lg-block">
+            <a href="" class="text-decoration-none">
+                <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Shop.ge</h1>
+            </a>
+        </div>
+        <div class="col-lg-6 col-6 text-left">
+            <form action="">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for products">
+                    <div class="input-group-append">
+                        <span class="input-group-text bg-transparent text-primary">
+                            <i class="fa fa-search"></i>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-3 col-6 text-right">
+            <a *ngIf="authService.loggedIn" [routerLink]="['/cart']" [class.active-link]="isActive('/cart')" class="btn border">
+                <i class="fas fa-shopping-cart text-primary"></i>
+                <span class="badge">{{ cartItemCount }}</span>
+            </a>
+        </div>
     </div>
   </div>
-</nav>
+  <!-- Topbar End -->
+  
+<!-- Navbar Start -->
+<div class="container-fluid">
+    <div class="row border-top px-xl-5">
+        <div class="col-lg-3 d-none d-lg-block">
+            <a class="btn shadow-none d-flex align-items-center justify-content-between bg-primary text-white w-100" (click)="toggleVerticalMenu()" style="height: 65px; margin-top: -1px; padding: 0 30px;">
+              <h6 class="m-0">Categories</h6>
+              <i class="fa fa-angle-down text-dark"></i>
+            </a>
+            <nav [ngClass]="{'collapse': !isVerticalMenuOpen}" class="position-absolute navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 bg-light" style="width: calc(100% - 30px); z-index: 1;">
+              <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
+                <a *ngFor="let category of categories" (click)="navigateToCategory(category.id)" class="nav-item nav-link">
+                  {{ category.name }}
+                </a>
+              </div>
+            </nav>
+        </div>          
+        <div class="col-lg-9">
+            <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
+                <a href="" class="text-decoration-none d-block d-lg-none">
+                    <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Shopper</h1>
+                </a>
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                    <div class="navbar-nav mr-auto py-0">
+                        <a [routerLink]="['/']" [ngClass]="{'active': isActive('/')}" class="nav-item nav-link"><i class="fas fa-home"></i> Home</a>
+                        <a [routerLink]="['/products']" [ngClass]="{'active': isActive('/products')}" class="nav-item nav-link"><i class="fas fa-box"></i> Products</a>
+                        <a *ngIf="authService.loggedIn" [routerLink]="['/add-product']" [ngClass]="{'active': isActive('/add-product')}" class="nav-item nav-link"><i class="fas fa-plus-circle"></i> Add Product</a>
+                        <a href="contact.html" class="nav-item nav-link">Contact</a>
+                    </div>
+                    <div class="navbar-nav ml-auto py-0">
+                      <div class="dropdown">
+                        <a *ngIf="authService.loggedIn" [routerLink]="['/cabinet']" [ngClass]="{'active': isActive('/cabinet')}">
+                          <i class="fas fa-user-circle"></i> Cabinet
+                        </a>
+                        <div class="dropdown-content" [matMenuTriggerFor]="profileMenu">
+                          <a mat-menu-item [routerLink]="['/profile']" [ngClass]="{'active': isActive('/profile')}">My Profile</a>
+                          <a mat-menu-item [routerLink]="['/credit-cards']" [ngClass]="{'active': isActive('/credit-cards')}">My Credit Cards</a>
+                          <a mat-menu-item [routerLink]="['/orders']" [ngClass]="{'active': isActive('/orders')}">My Orders</a>
+                          <a mat-menu-item *ngIf="authService.loggedIn" (click)="logout()">Logout</a>
+                        </div>
+                      </div>
+                        <a *ngIf="!authService.loggedIn" [routerLink]="['/login']" [ngClass]="{'active': isActive('/login')}" class="nav-item nav-link"><i class="fas fa-sign-in-alt"></i> Login</a>
+                        <a *ngIf="!authService.loggedIn" [routerLink]="['/register']" [ngClass]="{'active': isActive('/register')}" class="nav-item nav-link"><i class="fas fa-user-plus"></i> Sign Up</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+  </div>
+  <!-- Navbar End -->  

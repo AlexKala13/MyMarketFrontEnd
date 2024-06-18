@@ -1,76 +1,135 @@
-<div>
-  <div class="filterblock">
-    <div class="input-row">
-      <div class="input-group">
-        <label for="searchName">Name</label>
-        <input id="searchName" type="text" [(ngModel)]="filter.name" placeholder="Search by name" />
-      </div>
-      <div class="input-group">
-        <label for="searchCategory">Category</label>
-        <select id="searchCategory" [(ngModel)]="filter.category">
-          <option value="">All Categories</option>
-          <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
-        </select>
-      </div>
+<!-- Page Header Start -->
+<div class="container-fluid bg-secondary mb-5">
+  <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+    <h1 class="font-weight-semi-bold text-uppercase mb-3">Find Products</h1>
+    <div class="d-inline-flex">
+      <p class="m-0"><a href="">Home</a></p>
+      <p class="m-0 px-2">-</p>
+      <p class="m-0">Shop</p>
     </div>
-    <div class="input-row">
-      <div class="input-group">
-        <label for="searchDate">Date</label>
-        <input id="searchDate" type="date" [(ngModel)]="filter.date" />
-      </div>
-      <div class="input-group">
-        <label for="minPrice">Min Price</label>
-        <input id="minPrice" type="number" [(ngModel)]="filter.minPrice" placeholder="Min price" />
-      </div>
-      <div class="input-group">
-        <label for="maxPrice">Max Price</label>
-        <input id="maxPrice" type="number" [(ngModel)]="filter.maxPrice" placeholder="Max price" />
-      </div>
-    </div>
-    <div class="button-row">
-      <button class="apply-button" (click)="applyFilters()">Apply Filters</button>
-      <button class="clear-button" (click)="clearFilters()">Clear Filters</button>
-    </div>
-  </div>
-  <div class="layout-and-sort">
-    <div class="layout-buttons">
-      <button (click)="setLayout(2)">2 per row</button>
-      <button (click)="setLayout(1)">1 per row</button>
-    </div>
-    <div class="sort-by">
-      <label for="sortBy">Sort by:</label>
-      <select id="sortBy" [(ngModel)]="filter.sortBy" (change)="sortProducts()">
-        <option value="">Select</option>
-        <option value="date">Date</option>
-        <option value="price">Price</option>
-        <option value="name">Name</option>
-      </select>
-    </div>
-  </div>
-  <div class="products-container">
-    <div *ngIf="loading">Loading...</div>
-    <div *ngIf="!loading && products.length === 0">No products found</div>
-    <ul *ngIf="!loading && products.length > 0" [ngClass]="'layout-' + layout">
-      <li *ngFor="let product of products">
-        <div class="product-card">
-          <img *ngIf="product.photo && product.photo.image" [src]="'data:image/jpeg;base64,' + product.photo.image" alt="{{ product.name }}" />
-          <div class="product-info">
-            <h3>{{ product.name }}</h3>
-            <p>Category: {{ product.categoryName }}</p>
-            <p>Price: {{ getDisplayPrice(product.price) }}</p>
-            <p>Seller: {{ product.userName}}</p>
-            <p>Posted on: {{ product.postDate | date }}</p>
-            <button (click)="toggleCart(product)" class="cart-button">
-              <ng-container *ngIf="isProductInCart(product.id); else addToCartTemplate">
-                Remove from Cart
-              </ng-container>
-              <ng-template #addToCartTemplate>
-                Add to Cart
-              </ng-template>
-            </button>
-          </div>
-        </div>
-      </li>
-    </ul>
   </div>
 </div>
+<!-- Page Header End -->
+
+
+<!-- Shop Start -->
+<div class="container-fluid pt-5">
+  <div class="row px-xl-5">
+    <!-- Shop Sidebar Start -->
+    <div class="col-lg-3 col-md-12">
+   <!-- Category Start -->
+<div class="border-bottom mb-4 pb-4">
+  <h5 class="font-weight-semi-bold mb-4">Filter by Category</h5>
+  <form>
+    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+      <input type="checkbox" class="custom-control-input" id="category-all" [checked]="filter.category === ''" (change)="toggleCategoryFilter('all')">
+      <label class="custom-control-label" for="category-all">All Categories</label>
+    </div>
+    <div *ngFor="let category of categories" class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+      <input type="checkbox" class="custom-control-input" [id]="'category-' + category.id" [checked]="filter.category === category.id.toString()" (change)="toggleCategoryFilter(category.id)">
+      <label class="custom-control-label" [for]="'category-' + category.id">{{ category.name }}</label>
+    </div>
+  </form>
+</div>
+<!-- Category End -->
+
+<!-- Price Start -->
+<div class="border-bottom mb-4 pb-4">
+  <h5 class="font-weight-semi-bold mb-4">Filter by Price</h5>
+  <div class="input-group">
+    <label for="minPrice">Min Price</label>
+    <input id="minPrice" type="number" [(ngModel)]="filter.minPrice" placeholder="Min price" />
+  </div>
+  <div class="input-group">
+    <label for="maxPrice">Max Price</label>
+    <input id="maxPrice" type="number" [(ngModel)]="filter.maxPrice" placeholder="Max price" />
+  </div>
+</div>
+<!-- Price End -->
+
+<!-- Date Start -->
+<div class="mb-5">
+  <h5 class="font-weight-semi-bold mb-4">Filter by Date</h5>
+  <div class="input-group">
+    <label for="searchDate">Date</label>
+    <input id="searchDate" type="date" [(ngModel)]="filter.date" />
+  </div>
+</div>
+<!-- Date End -->
+
+<!-- Button Row Start -->
+<div class="button-row">
+  <button class="apply-button" (click)="applyFilters()">Apply Filters</button>
+  <button class="clear-button" (click)="clearFilters()">Clear Filters</button>
+</div>
+<!-- Button Row End -->
+    </div>
+    <!-- Shop Sidebar End -->
+
+    <!-- Shop Product Start -->
+    <div class="col-lg-9 col-md-12">
+      <div class="row pb-3">
+        <div class="col-12 pb-1">
+          <div class="d-flex align-items-center justify-content-between mb-4">
+            <div class="input-group">
+              <input type="text" [(ngModel)]="filter.name" class="form-control" placeholder="Search by name">
+              <div class="input-group-append">
+                <span class="input-group-text bg-transparent text-primary" (click)="applyFilters()">
+                  <i class="fa fa-search"></i>
+                </span>
+              </div>
+            </div>
+            <div class="sort-by">
+              <select id="sortBy" [(ngModel)]="filter.sortBy" (change)="sortProducts()">
+                <option value="">Sort By</option>
+                <option value="date">Date</option>
+                <option value="price">Price</option>
+                <option value="name">Name</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Cards Start -->
+<div class="col-lg-4 col-md-6 col-sm-12 pb-4" *ngFor="let product of products">
+  <div class="card product-item border-0 mb-2">
+     <!-- VIP Status Box -->
+     <div class="vip-status" *ngIf="product.status === 2">
+      VIP
+    </div>
+    <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+      <img class="img-fluid w-100" *ngIf="product.photo && product.photo.image" [src]="'data:image/jpeg;base64,' + product.photo.image" alt="{{ product.name }}">
+      <img class="img-fluid w-100" *ngIf="!product.photo || !product.photo.image" [src]="defaultImage" alt="Default Image">
+    </div>
+    <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+      <div>{{product.status}}</div>
+      <h6 class="text-truncate mb-3">{{ product.name }}</h6>
+      <div class="d-flex justify-content-center">
+        <h6>{{ getDisplayPrice(product.price) }} $</h6>
+      </div>
+      <p>{{product.userName}}</p>
+      <p>{{product.postDate | date}}</p>
+    </div>
+    <div class="card-footer d-flex justify-content-between bg-light border">
+      <a class="btn btn-sm text-dark p-0" (click)="viewProductDetails(product.id)">
+        <i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
+      <a class="btn btn-sm text-dark p-0" (click)="toggleCart(product)">
+        <i class="fas fa-shopping-cart text-primary mr-1"></i>
+        <ng-container *ngIf="isProductInCart(product.id); else addToCartTemplate">
+          Remove from Cart
+        </ng-container>
+        <ng-template #addToCartTemplate>
+          Add to Cart
+        </ng-template>
+      </a>
+    </div>
+  </div>
+</div>
+<!-- Product Cards End -->
+</div>
+</div>
+    <!-- Shop Product End -->
+
+</div>
+</div>
+<!-- Shop End -->

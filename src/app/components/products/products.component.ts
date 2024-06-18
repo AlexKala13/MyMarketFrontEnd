@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../services/productService/product.service';
 import { Product, ApiResponse } from '../../models/product.model';
 import { AuthService } from '../../services/authService/auth.service';
@@ -13,22 +13,35 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ProductsComponent implements OnInit {
   products: Product[] = [];
-  categories: number[] = [1, 2, 3];
+  categories = [
+    { id: 1, name: "Electronics" },
+    { id: 2, name: "Clothing and Accessories" },
+    { id: 3, name: "Home and Garden" },
+    { id: 4, name: 'Beauty and Health' },
+    { id: 5, name: 'Sports and Leisure' },
+    { id: 6, name: 'Auto and Moto' }
+  ];
   filter: any = { name: '', category: '', date: '', minPrice: null, maxPrice: null, sortBy: '' };
   loading: boolean = false;
   layout: number = 1; // Default layout
   userCartItems: any[] = []; // Array to store cart items for quick lookup
+  defaultImage=  '/assets/images/default-photo.jpg';
 
-  constructor(private productService: ProductService, private router: Router, private authService: AuthService, private cartService: CartService, private snackBar: MatSnackBar) { }
+  constructor(private productService: ProductService, private router: Router, private authService: AuthService, private cartService: CartService, private snackBar: MatSnackBar,  private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.loadProducts();
+    this.route.queryParams.subscribe(params => {
+      if (params['category']) {
+        this.filter.category = params['category'];
+      }
+      this.loadProducts();
+    });
     this.loadUserCartItems(); // Load user's cart items on component initialization
   }
 
   async loadProducts() {
     this.loading = true;
-
+  
     (await this.productService.getProducts(this.filter)).subscribe(
       response => {
         if (response && response.data && Array.isArray(response.data.$values)) {
@@ -65,14 +78,25 @@ export class ProductsComponent implements OnInit {
   }
 
   sortProducts() {
-    if (this.filter.sortBy === 'date') {
-      this.products.sort((a, b) => new Date(b.postDate).getTime() - new Date(a.postDate).getTime());
-    } else if (this.filter.sortBy === 'price') {
-      this.products.sort((a, b) => a.price - b.price);
-    } else if (this.filter.sortBy === 'name') {
-      this.products.sort((a, b) => a.name.localeCompare(b.name));
-    }
+    this.products.sort((a, b) => {
+      if (a.status === 2 && b.status !== 2) {
+        return -1;
+      } else if (a.status !== 2 && b.status === 2) {
+        return 1;
+      } else {
+        if (this.filter.sortBy === 'date') {
+          return new Date(b.postDate).getTime() - new Date(a.postDate).getTime();
+        } else if (this.filter.sortBy === 'price') {
+          return a.price - b.price;
+        } else if (this.filter.sortBy === 'name') {
+          return a.name.localeCompare(b.name);
+        } else {
+          return 0;
+        }
+      }
+    });
   }
+  
 
   getDisplayPrice(price: number): string {
     return price === 0 ? 'Negotiable' : price.toFixed(2);
@@ -124,6 +148,14 @@ export class ProductsComponent implements OnInit {
     const authorizedUser = this.authService.getUserId();
     if (authorizedUser !== null) {
       this.cartService.removeFromCart(productId, authorizedUser);
+    }
+  }
+
+  toggleCategoryFilter(categoryId: number | string): void {
+    if (categoryId === 'all') {
+      this.filter.category = '';
+    } else {
+      this.filter.category = categoryId.toString();
     }
   }
 }

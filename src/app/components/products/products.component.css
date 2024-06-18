@@ -1,216 +1,36 @@
-.filterblock {
-  width: 90%;
-  max-width: 900px;
-  padding: 20px;
-  background-color: #f8f9fa;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin: 0 auto;
-}
+  /* Product Card Styles */
+  .product-item {
+    max-width: 100%;
+    height: 100%;
+  }
 
-.input-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
+  .product-img {
+    height: 200px;
+    overflow: hidden;
+  }
 
-.input-group {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-right: 10px;
-}
+  .product-img img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+  }
 
-.input-group label {
-  margin-bottom: 5px;
-}
+  .card-body {
+    height: 200px;
+    overflow: hidden;
+  }
 
-.input-group input[type="text"],
-.input-group input[type="date"],
-.input-group input[type="number"],
-.input-group select {
-  flex: 1;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  outline: none;
-  transition: border-color 0.3s ease;
-  width: 100%;
-  box-sizing: border-box;
-}
+  .card-footer {
+    height: 50px;
+  }
 
-.input-group input[type="text"]:focus,
-.input-group input[type="date"]:focus,
-.input-group input[type="number"]:focus,
-.input-group select:focus {
-  border-color: #007bff;
-}
-
-.button-row {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 10px;
-}
-
-.apply-button,
-.clear-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  outline: none;
-  transition: background-color 0.3s ease;
-  margin-left: 10px;
-}
-
-.apply-button:hover,
-.clear-button:hover {
-  background-color: #0056b3;
-}
-
-.layout-and-sort {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 90%;
-  max-width: 900px;
-  margin-top: 20px;
-  margin: 0 auto;
-}
-
-.layout-buttons button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  outline: none;
-  transition: background-color 0.3s ease;
-  margin-left: 10px;
-}
-
-.layout-buttons button:hover {
-  background-color: #0056b3;
-}
-
-.sort-by {
-  display: flex;
-  align-items: center;
-}
-
-.sort-by label {
-  margin-right: 10px;
-}
-
-.products-container {
-  width: 80%;
-  margin: 20px auto;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-}
-
-li {
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 10px;
-  background-color: #fff;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 80%;
-  margin: 0 auto;
-}
-
-li:hover {
-  background-color: #f0f0f0;
-}
-
-.layout-2 li {
-  flex: 1 1 calc(50% - 20px);
-}
-
-.layout-1 li {
-  flex: 1 1 80%;
-}
-
-.product-card {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 300px;
-}
-
-.product-card img {
-  width: 450px; 
-  height: 250px;
-  object-fit: cover;
-  border-radius: 5px;
-  margin-right: 20px;
-}
-
-.product-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  position: relative; /* Добавляем позиционирование для кнопок */
-}
-
-h3 {
-  margin: 10px 0;
-  color: #333a56;
-  font-weight: bold; /* Жирный текст для заголовка */
-}
-
-.product-info p {
-  margin: 5px 0;
-  color: #333a56;
-}
-
-.price {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 1.5rem; /* Увеличенный размер шрифта */
-  font-weight: bold; /* Жирный текст для цены */
-}
-
-.cart-button {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  width: 100px;
-  height: 40px;
-  border-radius: 25px;
-  border: 2px solid#b8e994; /* Бордер для кнопки */
-  color: white;
-  background-color: #b8e994;
-  
-  outline: none;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-}
-
-.cart-button:hover {
-  background-color: transparent;
-  color: #b8e994;
-}
-
-.cart-button img {
-  max-width: 60%;
-  max-height: 60%;
-  display: block;
-  margin: auto;
-}
+  .vip-status {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: rgb(206, 181, 38);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+  }

@@ -2,7 +2,7 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #f0f0f0; /* светло-серый цвет для фона меню */
+  background-color: #f0f0f0;
   padding: 10px 20px;
   width: 100%;
   max-width: 1200px;
@@ -23,7 +23,7 @@ nav {
 }
 
 .nav-links a {
-  color: #333a56; /* тёмно-синий цвет для основного текста */
+  color: #333a56;
   text-decoration: none;
   padding: 10px 20px;
   display: flex;
@@ -49,16 +49,16 @@ nav {
 }
 
 .nav-links a.active-link::after {
-  background-color: #b8e994; /* пастельный зелёный цвет для активной ссылки */
+  background-color: #D19C97;
 }
 
 .nav-links a:hover::after {
-  background-color: #b8e994; /* пастельный зелёный цвет для подчёркивания при наведении */
+  background-color: #D19C97;
 }
 
 .nav-links a:hover {
   font-weight: bold;
-  color: #555555; /* тёмно-серый цвет для текста при наведении */
+  color: #555555;
 }
 
 .nav-links a:not(:last-child) {
@@ -87,7 +87,7 @@ nav {
 }
 
 .dropdown-content a {
-  color: #333a56; /* тёмно-синий цвет для текста в выпадающем меню */
+  color: #333a56;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
@@ -97,6 +97,28 @@ nav {
 }
 
 .dropdown-content a:hover {
-  background-color: #b8e994; /* пастельный зелёный цвет для фона при наведении в выпадающем меню */
+  background-color: #D19C97;
   color: white;
+}
+
+.collapse {
+  display: none;
+}
+
+.navbar-vertical {
+  transition: max-height 0.3s ease-in-out;
+}
+
+.navbar-vertical.collapse {
+  max-height: 0;
+  overflow: hidden;
+}
+
+.navbar-vertical {
+  max-height: 410px;
+}
+
+.nav-item.nav-link.active {
+  font-weight: bold;
+  color: #D19C97;
 }

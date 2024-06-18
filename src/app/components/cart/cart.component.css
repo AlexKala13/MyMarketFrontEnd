@@ -52,3 +52,16 @@
 .table th {
   background-color: #f2f2f2;
 }
+
+.clearCart {
+  background-color: transparent;
+  border: 4px solid #D19C97;
+}
+
+.clearCart:hover {
+  background-color: #D19C97;
+}
+
+.clearCart:active {
+  color : black;
+}
