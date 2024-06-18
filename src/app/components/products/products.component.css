@@ -34,3 +34,104 @@
     border-radius: 20px;
     font-weight: bold;
   }
+
+  .productBtn {
+    border: 3px solid #D19C97;
+    padding: 5px 10px;
+    background-color: transparent;
+    color: rgb(80, 80, 80);
+    border-radius: 20px;
+    margin: 10px;
+    transition: 0.3s all;
+    text-decoration: none;
+  }
+
+  .productBtn:hover {
+    background-color: #D19C97;
+    color: white;
+  }
+
+  .input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .price-label, .date-label {
+    flex: 0 0 100px;
+    margin-right: 10px;
+    font-weight: bold;
+  }
+  
+  .price-input, .date-input {
+    flex: 1;
+    border: none;
+    border-bottom: 2px solid #D19C97;
+    outline: none;
+    padding: 5px 0;
+  }
+  
+  .price-input::placeholder, .date-input::placeholder {
+    color: #999;
+  }
+  
+  .price-input:focus, .date-input:focus {
+    border-bottom-color: black;
+  }
+  
+  .price-input, .date-input {
+    user-select: none;
+  }
+  
+  .price-input:focus, .date-input:focus {
+    outline: none;
+  }
+  
+  .price-input, .date-input {
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+  }
+  
+  .price-input:active, .date-input:active,
+  .price-input:focus:active, .date-input:focus:active {
+    outline: none;
+    border-bottom-color: #000;
+  }
+  
+  input::-moz-focus-inner {
+    border: 0;
+  }
+
+  .d-flex {
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-group {
+    flex: 1;
+    margin-right: 20px;
+  }
+  
+  .search-icon {
+    cursor: pointer;
+  }
+  
+  .input-group {
+    flex: 1;
+  }
+  
+  .sort-by {
+    margin-left: 15px;
+  }
+  
+  .sort-by select {
+    width: 100px;
+    border: 2px solid #D19C97; 
+    color: #808080; 
+    padding: 5px;
+    border-radius: 4px;
+    outline: none;
+    background-color: #fff;
+  }

@@ -36,13 +36,13 @@
 <!-- Price Start -->
 <div class="border-bottom mb-4 pb-4">
   <h5 class="font-weight-semi-bold mb-4">Filter by Price</h5>
-  <div class="input-group">
-    <label for="minPrice">Min Price</label>
-    <input id="minPrice" type="number" [(ngModel)]="filter.minPrice" placeholder="Min price" />
+  <div class="input-group mb-3">
+    <label for="minPrice" class="price-label">Min Price</label>
+    <input id="minPrice" type="number" [(ngModel)]="filter.minPrice" placeholder="Min price" class="price-input"/>
   </div>
-  <div class="input-group">
-    <label for="maxPrice">Max Price</label>
-    <input id="maxPrice" type="number" [(ngModel)]="filter.maxPrice" placeholder="Max price" />
+  <div class="input-group mb-3">
+    <label for="maxPrice" class="price-label">Max Price</label>
+    <input id="maxPrice" type="number" [(ngModel)]="filter.maxPrice" placeholder="Max price" class="price-input"/>
   </div>
 </div>
 <!-- Price End -->
@@ -50,17 +50,17 @@
 <!-- Date Start -->
 <div class="mb-5">
   <h5 class="font-weight-semi-bold mb-4">Filter by Date</h5>
-  <div class="input-group">
-    <label for="searchDate">Date</label>
-    <input id="searchDate" type="date" [(ngModel)]="filter.date" />
+  <div class="input-group mb-3">
+    <label for="searchDate" class="date-label">Date</label>
+    <input id="searchDate" type="date" [(ngModel)]="filter.date" class="date-input"/>
   </div>
 </div>
 <!-- Date End -->
 
 <!-- Button Row Start -->
 <div class="button-row">
-  <button class="apply-button" (click)="applyFilters()">Apply Filters</button>
-  <button class="clear-button" (click)="clearFilters()">Clear Filters</button>
+  <button class="productBtn clear-button" (click)="clearFilters()">Clear Filters</button>
+  <button class="productBtn apply-button" (click)="applyFilters()">Apply Filters</button>
 </div>
 <!-- Button Row End -->
     </div>
@@ -79,8 +79,8 @@
                 </span>
               </div>
             </div>
-            <div class="sort-by">
-              <select id="sortBy" [(ngModel)]="filter.sortBy" (change)="sortProducts()">
+            <div class="sort-by ml-3">
+              <select id="sortBy" [(ngModel)]="filter.sortBy" (change)="sortProducts()" class="custom-select">
                 <option value="">Sort By</option>
                 <option value="date">Date</option>
                 <option value="price">Price</option>
