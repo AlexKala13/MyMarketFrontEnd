@@ -102,7 +102,7 @@ export class ProductsComponent implements OnInit {
   
 
   getDisplayPrice(price: number): string {
-    return price === 0 ? 'Negotiable' : price.toFixed(2);
+    return price === 0 ? 'Negotiable' : price.toFixed(2) + ' $';
   }
 
   toggleCart(product: any): void {

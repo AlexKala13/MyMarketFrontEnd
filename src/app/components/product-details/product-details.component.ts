@@ -14,6 +14,8 @@ import { CartService } from '../../services/cartService/cart.service';
 export class ProductDetailsComponent implements OnInit {
   product: ProductDetails | null = null;
   loading: boolean = false;
+  mainPhotoSrc: string = '';
+  selectedThumbnailIndex: number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -37,6 +39,7 @@ export class ProductDetailsComponent implements OnInit {
       response => {
         if (response && response.data) {
           this.product = { ...response.data, photos: response.data.photos?.['$values'] || [] } as ProductDetails;
+          this.mainPhotoSrc = this.product.photos.length > 0 ? 'data:image/jpeg;base64,' + this.product.photos[0].image : 'assets/images/default-photo.jpg';
         } else {
           this.product = null;
         }
@@ -48,6 +51,13 @@ export class ProductDetailsComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+
+  openFullScreen(): void {
+    if (this.mainPhotoSrc) {
+      const newWindow = window.open();
+      newWindow?.document.write(`<img src="${this.mainPhotoSrc}" style="width:100%;height:100%;"/>`);
+    }
   }
 
   isCurrentUserAuthor(): boolean {
@@ -118,10 +128,12 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   swapMainPhoto(index: number): void {
-    if (index !== 0 && this.product && this.product.photos.length > index) {
+    if (this.product && this.product.photos.length > index) {
       const mainPhoto = this.product.photos[0];
       this.product.photos[0] = this.product.photos[index];
       this.product.photos[index] = mainPhoto;
+      this.mainPhotoSrc = 'data:image/jpeg;base64,' + this.product.photos[0].image;
+      this.selectedThumbnailIndex = index;
     }
   }
 

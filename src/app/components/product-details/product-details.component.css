@@ -6,25 +6,25 @@
   .product-details-container {
     display: flex;
     justify-content: space-between;
-    max-width: 80%; /* Регулируем ширину контейнера, 10% отступы слева и справа */
-    margin: 0 auto; /* Центрируем контейнер по горизонтали */
+    max-width: 80%;
+    margin: 0 auto;
   }
   
   .product-photos {
-    flex: 1; /* Окно для фото занимает всё доступное пространство */
-    text-align: center; /* Центрируем содержимое */
+    flex: 1;
+    text-align: center;
   }
   
   .product-info {
-    flex: 1; /* Окно для информации о продукте */
-    padding-left: 20px; /* Добавляем немного отступа с левой стороны для визуального разделения */
+    flex: 1;
+    padding-left: 20px;
   }
 
   .product-photos img {
     max-width: 100%;
     height: auto;
-    margin-bottom: 10px; /* Отступ между фотографиями в слайдере */
-    cursor: pointer; /* Указатель при наведении для интерактивности */
+    margin-bottom: 10px;
+    cursor: pointer;
   }
   
   .small-photos {
@@ -33,9 +33,9 @@
   }
   
   .small-photos img {
-    width: 50px; /* Размер маленьких фото */
+    width: 50px;
     height: 50px;
-    margin: 0 5px; /* Отступы между маленькими фото */
+    margin: 0 5px;
   }
   
   .product-info h1 {
@@ -50,4 +50,29 @@
   .main-photo {
     width: 500px;
   }
+
+  .main-photo-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: auto;
+  }
   
+  .main-photo-container img {
+    cursor: pointer;
+  }
+  
+  .thumbnail-container {
+    width: 100%;
+  }
+  
+  .thumbnail-img {
+    cursor: pointer;
+    height: 100px;
+    object-fit: cover;
+    border: 2px solid transparent;
+  }
+  
+  .thumbnail-img.selected-thumbnail {
+    border: 2px solid brown;
+  }  

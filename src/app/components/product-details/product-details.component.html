@@ -1,33 +1,71 @@
-<div class="product-details-container">
-  <div class="product-photo-container">
-    <img 
-      [src]="getMainPhoto()" 
-      alt="{{ product?.name || 'Default Photo' }}"
-    >
-  </div>
-  <div class="small-photos-container" *ngIf="product?.photos && product!.photos.length > 1">
-    <div class="small-photos">
-      <div *ngFor="let photo of product!.photos.slice(1); let i = index">
-        <img *ngIf="photo.image" [src]="'data:image/jpeg;base64,' + photo.image" alt="{{ product?.name }}" (click)="swapMainPhoto(i + 1)">
-      </div>
+<!-- Page Header Start -->
+<div class="container-fluid bg-secondary mb-5">
+    <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+        <h1 class="font-weight-semi-bold text-uppercase mb-3">Shop Detail</h1>
+        <div class="d-inline-flex">
+            <p class="m-0"><a href="">Home</a></p>
+            <p class="m-0 px-2">-</p>
+            <p class="m-0">Shop Detail</p>
+        </div>
     </div>
-  </div>
-  <div class="product-info">
-    <div *ngIf="!loading && product">
-      <h1>{{ product.name }}</h1>
-      <p>{{ product.description }}</p>
-      <p>Category: {{ product.categoryName }}</p>
-      <p>Price: {{ product.price | currency }}</p>
-      <p>Posted on: {{ product.postDate | date }}</p>
-      <p>Due date: {{ product.dueDate | date }}</p>
-      <p>Status: {{ product.status }}</p>
-      <p>User: {{ product.userName }}</p>
-    </div>
-    <div *ngIf="!loading && !product">
-      <p>Product not found</p>
-    </div>
-    <button *ngIf="isCurrentUserAuthor()" (click)="editProduct()">Edit</button>
-    <button *ngIf="isCurrentUserAuthor()" (click)="deleteProduct()">Delete</button>
-    <button (click)="addToCart()" *ngIf="!isCurrentUserAuthor()">Add to Cart</button>
-  </div>
 </div>
+<!-- Page Header End -->
+
+<!-- Shop Detail Start -->
+<div class="container-fluid py-5">
+    <div class="row px-xl-5">
+        <div class="col-lg-5 pb-5">
+            <div class="main-photo-container mb-3">
+                <img class="w-100 h-100" [src]="mainPhotoSrc" alt="{{ product!.name }}" (click)="openFullScreen()">
+            </div>
+            <div class="thumbnail-container">
+                <div class="row">
+                    <div *ngFor="let photo of product!.photos; let i = index" class="col-3 mb-3">
+                        <img [class.selected-thumbnail]="i === selectedThumbnailIndex" class="w-100 h-100 thumbnail-img" [src]="'data:image/jpeg;base64,' + photo.image" alt="{{ product!.name }}" (click)="swapMainPhoto(i)">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7 pb-5" *ngIf="!loading && product">
+            <div *ngIf="!loading && !product">
+                <p>Product not found</p>
+            </div>
+            <h3 class="font-weight-semi-bold">{{ product.name }}</h3>
+            <h3 class="font-weight-semi-bold mb-4">{{ product.price === 0 ? 'Price negotiable' : product.price + ' $' }}</h3>
+            <p class="mb-4">{{ product.description }}</p>
+            <div class="d-flex mb-3">
+                <p class="text-dark font-weight-medium mb-0 mr-3">Category : {{ product.categoryName }}</p>
+            </div>
+            <div class="d-flex mb-4">
+                <p class="text-dark font-weight-medium mb-0 mr-3">Posted : {{ product.dueDate | date }}</p>
+            </div>
+            <div class="d-flex mb-4">
+                <p class="text-dark font-weight-medium mb-0 mr-3">Seller : {{ product.userName }}</p>
+            </div>
+            <div class="d-flex align-items-center mb-4 pt-2">
+                <button class="btn btn-primary px-3" (click)="addToCart()" *ngIf="!isCurrentUserAuthor()"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>
+                <button class="btn btn-primary px-3 ml-3" *ngIf="isCurrentUserAuthor()" (click)="editProduct()"><i class="fa fa-edit mr-1"></i> Edit</button>
+                <button class="btn btn-primary px-3 ml-3" *ngIf="isCurrentUserAuthor()" (click)="deleteProduct()"><i class="fa fa-trash mr-1"></i> Delete</button>
+            </div>
+            <div class="d-flex pt-2">
+                <p class="text-dark font-weight-medium mb-0 mr-2">Share on:</p>
+                <div class="d-inline-flex">
+                    <a class="text-dark px-2" href="">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a class="text-dark px-2" href="">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a class="text-dark px-2" href="">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a class="text-dark px-2" href="">
+                        <i class="fab fa-pinterest"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Shop Detail End -->

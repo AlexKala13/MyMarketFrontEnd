@@ -13,14 +13,6 @@
         <th (click)="sortField = 'orderDate'; toggleSortDirection()">Order Date</th>
         <th>Actions</th>
       </tr>
-      <tr>
-        <th><input type="text" [(ngModel)]="productIdFilter" placeholder="Filter"></th>
-        <th><input type="text" [(ngModel)]="sellerFilter" placeholder="Filter"></th>
-        <th><input type="text" [(ngModel)]="categoryFilter" placeholder="Filter"></th>
-        <th></th>
-        <th></th>
-        <th></th>
-      </tr>
     </thead>
     <tbody>
       <tr *ngFor="let order of filteredOrders" [ngClass]="'status-' + order.status">
