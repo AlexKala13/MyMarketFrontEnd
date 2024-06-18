@@ -34,6 +34,9 @@ export class ProductsComponent implements OnInit {
       if (params['category']) {
         this.filter.category = params['category'];
       }
+      if (params['name']) {
+        this.filter.name = params['name'];
+      }
       this.loadProducts();
     });
     this.loadUserCartItems(); // Load user's cart items on component initialization

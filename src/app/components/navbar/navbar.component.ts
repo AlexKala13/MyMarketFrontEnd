@@ -20,6 +20,7 @@ export class NavbarComponent {
   profileMenu: any;
   isVerticalMenuOpen = false;
   cartItemCount: number = 0;
+  searchTerm: string = '';
 
   constructor(public authService: AuthService, private router: Router, private cartService: CartService) { }
 
@@ -48,5 +49,9 @@ export class NavbarComponent {
   navigateToCategory(categoryId: number): void {
     this.router.navigate(['/products'], { queryParams: { category: categoryId } });
     this.closeVerticalMenu();
+  }
+
+  searchProducts() {
+    this.router.navigate(['/products'], { queryParams: { name: this.searchTerm } });
   }
 }
