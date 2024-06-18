@@ -5,6 +5,7 @@ import { Product, ApiResponse } from '../../models/product.model';
 import { AuthService } from '../../services/authService/auth.service';
 import { CartService } from '../../services/cartService/cart.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from '../../environment/environment';
 
 @Component({
   selector: 'app-products',
@@ -13,14 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ProductsComponent implements OnInit {
   products: Product[] = [];
-  categories = [
-    { id: 1, name: "Electronics" },
-    { id: 2, name: "Clothing and Accessories" },
-    { id: 3, name: "Home and Garden" },
-    { id: 4, name: 'Beauty and Health' },
-    { id: 5, name: 'Sports and Leisure' },
-    { id: 6, name: 'Auto and Moto' }
-  ];
+  categories = environment.categories;
   filter: any = { name: '', category: '', date: '', minPrice: null, maxPrice: null, sortBy: '' };
   loading: boolean = false;
   layout: number = 1; // Default layout

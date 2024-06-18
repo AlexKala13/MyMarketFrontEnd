@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../services/authService/auth.service';
 import { CartService } from '../../services/cartService/cart.service';
 import { Router } from '@angular/router';
+import { environment } from '../../environment/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -9,14 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
-  categories = [
-    { id: 1, name: "Electronics" },
-    { id: 2, name: "Clothing and Accessories" },
-    { id: 3, name: "Home and Garden" },
-    { id: 4, name: 'Beauty and Health' },
-    { id: 5, name: 'Sports and Leisure' },
-    { id: 6, name: 'Auto and Moto' }
-  ];
+  categories = environment.categories;
   profileMenu: any;
   isVerticalMenuOpen = false;
   cartItemCount: number = 0;
