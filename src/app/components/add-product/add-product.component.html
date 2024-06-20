@@ -46,7 +46,7 @@
         <label>Status:</label>
         <input id="standardStatus" type="radio" [(ngModel)]="product.status" name="status" value="0" checked>
         <label for="standardStatus">Standard ($0.1)</label>
-        <input id="vipStatus" type="radio" [(ngModel)]="product.status" name="status" value="1">
+        <input id="vipStatus" type="radio" [(ngModel)]="product.status" name="status" value="2">
         <label for="vipStatus">VIP ($0.5)</label>
       </div>
       <div class="form-group file-drop-area">
@@ -54,9 +54,7 @@
         <input id="photos" type="file" (change)="onFileChange($event)" accept="image/*" multiple style="display: none;" />
       </div>
     </div>
+    <button type="submit">Add Product</button>
   </form>
   <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-  <div class="button-container">
-    <button type="submit">Add Product</button>
-  </div>
 </div>
